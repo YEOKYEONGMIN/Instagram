@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.domain.AttachVO;
-import com.example.domain.BoardVO;
 
 public class AttachDAO {
 

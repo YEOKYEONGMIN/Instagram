@@ -380,7 +380,7 @@ public class BoardRestServlet extends HttpServlet {
 		// ipaddr  regDate  readcount
 		boardVO.setIpaddr(request.getRemoteAddr()); // 127.0.0.1  localhost
 		boardVO.setRegDate(new Timestamp(System.currentTimeMillis()));
-		boardVO.setLike(0); // 조회수
+		boardVO.setLikecount(0); // 좋아요
 		boardVO.setLocation(multi.getParameter("location"));
 	
 

@@ -1,3 +1,4 @@
+<%@page import="com.example.repository.BoardLikeDAO"%>
 <%@page import="com.example.repository.AttachDAO"%>
 <%@page import="com.example.domain.AttachVO"%>
 <%@page import="com.example.domain.MemberVO"%>
@@ -17,6 +18,7 @@ AttachDAO attachDAO = AttachDAO.getInstance();
 //board 테이블에서 전체글 리스트로 가져오기 
 List<BoardVO> boardList = boardDAO.getBoards();
 MemberDAO memberDAO = MemberDAO.getInstance();
+BoardLikeDAO boardLikeDAO = BoardLikeDAO.getInstance();
 
 //아이디에 해당하는 자신의 정보를 DB에서 가져오기
 MemberVO memberVO = memberDAO.getMemberById(id);
@@ -116,7 +118,14 @@ String username;
                     </div>
                     	<div class="sl__item__contents">
                         <div class="sl__item__contents__icon">
-                            <button><i class="far fa-heart"></i></button>
+                        <%memberVO=memberDAO.getMemberById(id); %>
+                        	<input type="hidden" value="<%=memberVO.getUsername() %>">
+                        	<input type="hidden" value="<%=boardVO.getNum()%>">
+                        	<%if(boardLikeDAO.getLike(boardVO.getNum(), memberVO.getUsername())==0){ %>
+                            	<button type="button" id="btn<%=boardVO.getNum() %>" onclick="like(<%=boardVO.getNum()%>);" class="btn-like"><i class="far fa-heart"></i></button>
+                            <%} else { %>
+                            	<button type="button" id="btn<%=boardVO.getNum() %>" onclick="like(<%=boardVO.getNum()%>);" class="btn-like"><i class="fas fa-heart" style="color: red;"></i></button>
+                            	<%} %>	  
                             <button><i class="far fa-comment"></i></button>
                             <button><i class="far fa-paper-plane"></i></button>
                             <div class="nav-indicator">
@@ -130,8 +139,10 @@ String username;
                             <button><i class="far fa-bookmark"></i></button>
                         </div>
                         <div class="sl__item__contents__content">
-                        <%if(boardVO.getLike()>0){ %>
-                            <P>종아요 <%=boardVO.getLike() %>개</P>
+                        <%if(boardVO.getLikecount()>0){ %>
+                            <P id="likecount<%=boardVO.getNum()%>">좋아요 <%=boardVO.getLikecount() %>개</P>
+                            <% } else { %>
+      							<P id="likecount<%=boardVO.getNum()%>"></P>
                             <%} %>
                             <p><span><%=boardVO.getUsername()%></span>  <%=boardVO.getContent() %></p>
                             <button>댓글 123개 모두 보기</button>
@@ -214,7 +225,46 @@ String username;
     <script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TimelineMax.min.js'></script>
 	<script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js'></script>
 	<script src="/js/slide.js"></script>
+	<script src="/js/jquery-3.6.0.js"></script>
     <script>
+    
+   
+    function like(num){
+    	var $i = $('#btn'+num).children();
+    	var bno = $('#btn'+num).prev().val();
+    	var username = $('#btn'+num).prev().prev().val();
+    	console.log(bno);
+    	console.log(username);
+    	if($i.hasClass("far fa-heart") === true){
+    		$i.removeClass('far fa-heart').addClass('fas fa-heart');
+    		$i.css('color', 'red');
+    	}else{
+    		$i.removeClass('fas fa-heart').addClass('far fa-heart');
+    		$i.css('color', 'black');
+    	}
+    	var $p = $('#likecount'+num);
+    	console.log($p);
+
+        $.ajax({
+    		url : '/api/boardLike/' + bno+'/'+username,
+    		method : 'POST',
+    		success : function(data) {
+    			console.log(data.likecount);
+    			
+    			if(data.likecount>0)
+    				$p.html('좋아요 '+data.likecount+'개');
+    			else
+    				$p.html('');
+
+    			
+    		} // success
+    	});
+    }
+    
+    
+    
+    
+    
         function popup() {
             document.querySelector('.modal-container').style.display = "flex";
         }

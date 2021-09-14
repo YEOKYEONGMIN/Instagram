@@ -132,7 +132,7 @@ public class BoardDAO {
 			con = JdbcUtils.getConnection();
 
 			String sql = "";
-			sql = "INSERT INTO board (num, username,  content, like, regDate, ipaddr, location) ";
+			sql = "INSERT INTO board (num, username,  content, likecount, regDate, ipaddr, location) ";
 			sql += "VALUES (?, ?, ?, ?, ?, ?, ?) ";
 
 			pstmt = con.prepareStatement(sql);
@@ -140,7 +140,7 @@ public class BoardDAO {
 			pstmt.setInt(1, boardVO.getNum());
 			pstmt.setString(2, boardVO.getUsername());
 			pstmt.setString(3, boardVO.getContent());
-			pstmt.setInt(4, boardVO.getLike());
+			pstmt.setInt(4, boardVO.getLikecount());
 			pstmt.setTimestamp(5, boardVO.getRegDate());
 			pstmt.setString(6, boardVO.getIpaddr());
 			pstmt.setString(7, boardVO.getLocation());
@@ -178,7 +178,7 @@ public class BoardDAO {
 				boardVO.setNum(rs.getInt("num"));
 				boardVO.setUsername(rs.getString("username"));
 				boardVO.setContent(rs.getString("content"));
-				boardVO.setLike(rs.getInt("like"));
+				boardVO.setLikecount(rs.getInt("likecount"));
 				boardVO.setRegDate(rs.getTimestamp("regDate"));
 				boardVO.setIpaddr(rs.getString("ipaddr"));
 				boardVO.setLocation(rs.getString("location"));
@@ -219,7 +219,7 @@ public class BoardDAO {
 				boardVO.setNum(rs.getInt("num"));
 				boardVO.setUsername(rs.getString("username"));
 				boardVO.setContent(rs.getString("content"));
-				boardVO.setLike(rs.getInt("like"));
+				boardVO.setLikecount(rs.getInt("likecount"));
 				boardVO.setRegDate(rs.getTimestamp("regDate"));
 				boardVO.setIpaddr(rs.getString("ipaddr"));
 				boardVO.setLocation(rs.getString("location"));
@@ -267,14 +267,14 @@ public class BoardDAO {
 
 			String sql = "";
 			sql = "UPDATE board ";
-			sql += "SET subject = ?, content = ?, ipaddr = ?, location = ? ";
+			sql += "SET content = ?, ipaddr = ?, location = ? ";
 			sql += "WHERE num = ? ";
 
 			pstmt = con.prepareStatement(sql);
-			pstmt.setString(2, boardVO.getContent());
-			pstmt.setString(3, boardVO.getIpaddr());
-			pstmt.setString(4, boardVO.getLocation());
-			pstmt.setInt(5, boardVO.getNum());
+			pstmt.setString(1, boardVO.getContent());
+			pstmt.setString(2, boardVO.getIpaddr());
+			pstmt.setString(3, boardVO.getLocation());
+			pstmt.setInt(4, boardVO.getNum());
 			pstmt.executeUpdate();
 
 		} catch (Exception e) {
@@ -285,7 +285,29 @@ public class BoardDAO {
 	} // updateBoard
 
 	
-	
+	public void updateLikecount(int like, int bno) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			con = JdbcUtils.getConnection();
+			
+			String sql = "";
+			sql = "UPDATE board ";
+			sql += "SET likecount = ? ";
+			sql += "WHERE num = ? ";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, like);
+			pstmt.setInt(2, bno);
+			pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JdbcUtils.close(con, pstmt);
+		}
+		
+	}
 	
 	
 	
