@@ -1,0 +1,156 @@
+@import 'header.css';
+
+.main {padding-top: 54px;}
+.main .container {padding-top: 30px;width: 935px; display: flex;flex-direction: column;margin: 0 auto;}
+.main .container .friend-list {width: 100%;height:120px;border: 1px solid #dbdbdb;overflow: hidden;overflow-x: auto;margin-bottom: 24px;padding:16px 0;display: flex;border-radius: 4px;}
+.main .container .friend-list .friend-list__item {display: flex;flex-direction: column;width:80px;height: 100%;justify-content: center;}
+.main .container .friend-list .friend-list__item div:nth-child(1) {width:64px;height: 64px;padding:3px;border: 2px solid black;border-radius: 50%;display: inline-block;margin: 0 auto;}
+.main .container .friend-list .friend-list__item div:nth-child(2) {height: 30%;overflow: hidden;text-overflow: ellipsis;padding: 0 3px; text-align: center;}
+.main .container .friend-list .friend-list__item div:nth-child(1) img {width: 100%;height: 100%;border-radius: 50%;}
+
+.main .container .story-list {display: flex; flex-direction: column;width: 100%;}
+.main .container .story-list .story-list__item {margin-bottom: 60px;border: 1px solid #dbdbdb;border-radius: 4px;}
+.main .container .story-list .story-list__item .sl__item__header {width: 100%;height: 60px;display: flex;align-items: center;}
+.main .container .story-list .story-list__item .sl__item__header div {margin-left:10px;}
+.main .container .story-list .story-list__item .sl__item__header div:nth-child(1) {width:40px;height: 40px;padding:3px;border: 2px solid black;border-radius: 50%;}
+.main .container .story-list .story-list__item .sl__item__header div:nth-child(1) img {width: 100%;height: 100%;border-radius: 50%;}
+.main .container .story-list .story-list__item .sl__item__header div:nth-child(2) {font-size: 13px;}
+.main .container .story-list .story-list__item .sl__item__header div:nth-child(2) span{font-size: 14px; pa-bottom: 5px; font-weight: bold;}
+.main .container .story-list .story-list__item .sl__item__header div:nth-child(3) {margin-left: auto;}
+.main .container .story-list .story-list__item .sl__item__header div:nth-child(3) button {background-color: transparent; border: 0;margin-right: 20px;cursor: pointer;}
+.main .container .story-list .story-list__item .sl__item__img {height: 935px;}
+.main .container .story-list .story-list__item .sl__item__img img {width: 100%;height: 100%;}
+.main .container .story-list .story-list__item .sl__item__contents {display: flex;flex-direction: column;}
+.main .container .story-list .story-list__item .sl__item__contents .sl__item__contents__icon {display: flex;height: 40px;margin-top: 4px;}
+.main .container .story-list .story-list__item .sl__item__contents .sl__item__contents__icon button {background-color: transparent;width: 40px;font-size: 25px;margin-right: 10px;border: 0;cursor: pointer;}
+.main .container .story-list .story-list__item .sl__item__contents .sl__item__contents__icon button:first-child {margin-left: 10px;}
+.main .container .story-list .story-list__item .sl__item__contents .sl__item__contents__icon button:last-child {margin-left: auto;}
+.main .container .story-list .story-list__item .sl__item__contents .sl__item__contents__content {padding: 5px 15px;}
+.main .container .story-list .story-list__item .sl__item__contents .sl__item__contents__content p {margin-bottom: 5px;}
+.main .container .story-list .story-list__item .sl__item__contents .sl__item__contents__content button {background-color: transparent;border: 0;color:#aaa;font-size: 14px;margin-bottom: 5px;cursor: pointer;}
+.main .container .story-list .story-list__item .sl__item__contents .sl__item__contents__content ul li {font-size: 14px;display: flex;}
+.main .container .story-list .story-list__item .sl__item__contents .sl__item__contents__content ul li span {font-weight:600;margin-right: 10px;}
+.main .container .story-list .story-list__item .sl__item__contents .sl__item__contents__content ul li button {margin-left: auto;margin-right: 10px;}
+.main .container .story-list .story-list__item .sl__item__contents .sl__item__contents__content .sl__item__contents__timeline {font-size: 13px;color:#aaa; margin: 10px 0 5px;}
+.main .container .story-list .story-list__item .sl__item__input {display: flex;border-top: 1px solid #dbdbdb;}
+.main .container .story-list .story-list__item .sl__item__input input {flex:9;height: 56px;border: 0;padding-left: 15px;}
+.main .container .story-list .story-list__item .sl__item__input button {flex:1;height: 56px;border: 0;background-color: transparent;font-weight: 500;color:#0095f6;font-size: 14px;}
+@media screen and (max-width: 935px) {
+    .main .container {width: 100%;}
+    .main .container .story-list .story-list__item .sl__item__img {height: 100%;}
+}
+.modal-container {position:fixed;top:0;left:0;width: 100%;height: 100%;background-color: rgba(0, 0, 0, .3);display: none;align-items: center;justify-content: center;}
+.modal-container .modal {width: 400px;height: 336px;background-color: #fff;border-radius: 4%;display: flex;flex-direction: column;}
+.modal-container .modal .title{display: flex;}
+.modal-container .modal button {border: 0;background-color: transparent;height: 48px;cursor: pointer;}
+.modal-container .modal button:first-child,.modal button:nth-child(2) {color:red;font-weight: 600;}
+.modal-container .modal button:not(:last-child) {border-bottom: 1px solid #dbdbdb;}
+
+.main .container .story-list .story-list__item .flex{
+    height: 935px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.main .container .story-list .story-list__item .hidden {
+  transition: all 200ms ease;
+  opacity: 0;
+  pointer-events: none;
+}
+.main .container .story-list .story-list__item .carousel {
+    width: 100%;
+    height: 100%;
+  position: relative;
+}
+.main .container .story-list .story-list__item .carousel .btn {
+  position: absolute;
+  height: calc(100% - 15%);
+  width: calc(100% - 90%);
+  margin: 35px 0;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 400ms ease;
+  overflow: hidden;
+}
+.main .container .story-list .story-list__item .carousel .btn i {
+  font-size: 1.0rem;
+  color: rgba(255, 255, 255, 1.0);
+  transition: all 400ms ease;
+  opacity: 0;
+}
+.main .container .story-list .story-list__item .carousel .btn-back {
+  top: 0;
+  left: 0px;
+  z-index: 3;
+  height: 20px;
+  margin-top: 450px;
+}
+
+.main .container .story-list .story-list__item .carousel .btn-next {
+  top: 0;
+  right: 0px;
+  z-index: 3;
+  height: 20px;
+  margin-top: 450px;
+}
+
+
+.main .container .story-list .story-list__item .carousel .btn .right-indicator, 
+.main .container .story-list .story-list__item .carousel .btn .left-indicator {
+  opacity: 1;
+  background-color: #aaa ;
+  border-radius: 50%;
+  width: 15px;}
+
+
+.main .container .story-list .story-list__item .carousel .btn:hover .fa-arrow-left,
+.main .container .story-list .story-list__item .carousel .btn:hover .fa-arrow-right {
+  opacity: 1;
+}
+
+
+.main .container .story-list .story-list__item .carousel .viewbox {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  margin: auto;
+  z-index: 0;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.6);
+}
+.main .container .story-list .story-list__item .carousel .viewbox .track {
+    height: 935px;
+  position: relative;
+  transition: all 500ms ease;
+  z-index: 0;
+}
+.main .container .story-list .story-list__item .carousel .viewbox .track .slide {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  transform: scale(1.09);
+}
+.main .container .story-list .story-list__item .carousel .viewbox .track .slide .images {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.main .container .story-list .story-list__item .nav-indicator {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-right: 100px;
+}
+.main .container .story-list .story-list__item .sl__item__contents .sl__item__contents__icon .nav-indicator .dot {
+  margin: 5px 5px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(170, 170, 170);
+  transition: all 300ms ease;
+}
+.main .container .story-list .story-list__item .sl__item__contents .sl__item__contents__icon .nav-indicator .dot.active {
+  background: rgba(0, 149, 246);
+}
