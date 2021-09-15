@@ -1,3 +1,6 @@
+<%@page import="com.example.repository.ReplyLikeDAO"%>
+<%@page import="com.example.repository.ReplyDAO"%>
+<%@page import="com.example.domain.ReplyVO"%>
 <%@page import="com.example.repository.BoardLikeDAO"%>
 <%@page import="com.example.repository.AttachDAO"%>
 <%@page import="com.example.domain.AttachVO"%>
@@ -15,13 +18,16 @@ System.out.println("id :" + id );
 //DAO 객체 준비
 BoardDAO boardDAO = BoardDAO.getInstance();
 AttachDAO attachDAO = AttachDAO.getInstance();
+ReplyDAO replyDAO = ReplyDAO.getInstance();
 //board 테이블에서 전체글 리스트로 가져오기 
 List<BoardVO> boardList = boardDAO.getBoards();
 MemberDAO memberDAO = MemberDAO.getInstance();
 BoardLikeDAO boardLikeDAO = BoardLikeDAO.getInstance();
+ReplyLikeDAO replyLikeDAO = ReplyLikeDAO.getInstance();
 
 //아이디에 해당하는 자신의 정보를 DB에서 가져오기
 MemberVO memberVO = memberDAO.getMemberById(id);
+List<ReplyVO> replyList;
 List<AttachVO> attachList;
 int count;
 String username;
@@ -32,11 +38,11 @@ String username;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Instagram</title>
     <!-- Favicon -->
-    <link rel="shortcut icon" href="../img/insta.svg">
+    <link rel="shortcut icon" href="/images/insta.svg">
     <!-- Style -->
-    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="/css/home.css">
     <!-- Fontawesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 	</head>
@@ -140,23 +146,47 @@ String username;
                         </div>
                         <div class="sl__item__contents__content">
                         <%if(boardVO.getLikecount()>0){ %>
-                            <P id="likecount<%=boardVO.getNum()%>">좋아요 <%=boardVO.getLikecount() %>개</P>
+                            <P id="likecount<%=num%>">좋아요 <%=boardVO.getLikecount() %>개</P>
                             <% } else { %>
-      							<P id="likecount<%=boardVO.getNum()%>"></P>
+      							<P id="likecount<%=num%>"></P>
                             <%} %>
                             <p><span><%=boardVO.getUsername()%></span>  <%=boardVO.getContent() %></p>
-                            <button>댓글 123개 모두 보기</button>
+                            <% if(replyDAO.getReplyCount(num)>2){ %>
+                            <button>댓글 <%=replyDAO.getReplyCount(num) %>개 모두 보기</button>
+                            <%} %>
                             <ul class="comment">
-                                <li><span>아이디</span>댓글댓글댓글댓글 <button><i class="far fa-heart"></i></button></li>
-                                <li><span>아이디</span>댓글댓글댓글댓글 <button><i class="far fa-heart"></i></button></li>
+                            <%replyList = replyDAO.getReply(num);
+                           	 int i =0;
+                             for(ReplyVO replyVO : replyList){
+                            	 %>
+                            	 
+                            	 <li><span><%=replyVO.getReplyUsername() %></span><%=replyVO.getReplyComent() %>
+                            	 <input type="hidden" value="<%=memberVO.getUsername() %>"/>
+                            	 <button type="button" id="replylikeBtn<%=replyVO.getNum() %>" onclick="replylike(<%=replyVO.getNum()%>);">
+                            	 <%if(replyLikeDAO.getLike(replyVO.getNum(), memberVO.getUsername())==0) {%>
+                            	 	<i class="far fa-heart"></i>
+                            	 <%}else{%>  
+                            	 	<i class="fas fa-heart" style="color: red;"></i>
+                            	 	<%} %>
+                            	 	</button></li>
+                            	 <% i++;
+                            	 if(i==1)
+                            		 break;
+                             }
+                            %>
+                               
                             </ul>
                             <div class="sl__item__contents__timeline">2일 전</div>
                         </div>
                     </div>
+                    <form id="frm<%=num%>">
                     <div class="sl__item__input">
-                        <input type="text" placeholder="댓글 달기...">
-                        <button>게시</button>
+						<input type="hidden" name="replyBno" value="<%=num%>">
+						<input type="hidden" name="replyUsername" value="<%=memberVO.getUsername() %>" >                 
+                        <input type="text" name="replyComent" placeholder="댓글 달기...">
+                        <button type="button" id ="replybtn<%=num%>" onclick="reply(<%=num%>)" >게시</button>
                     </div>
+                    </form>
                 </div>
                     	<%
             }
@@ -226,6 +256,7 @@ String username;
 	<script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js'></script>
 	<script src="/js/slide.js"></script>
 	<script src="/js/jquery-3.6.0.js"></script>
+    <script src="/js/jquery.serializeObject.min.js"></script>
     <script>
     
    
@@ -261,7 +292,58 @@ String username;
     	});
     }
     
+    function replylike(number){
+    	var $i = $('#replylikeBtn'+number).children();
+    	var username= $('#replylikeBtn'+number).prev().val();
+    	console.log(number);
+    	console.log(username);
+    	if($i.hasClass("far fa-heart") === true){
+    		$i.removeClass('far fa-heart').addClass('fas fa-heart');
+    		$i.css('color', 'red');
+    	}else{
+    		$i.removeClass('fas fa-heart').addClass('far fa-heart');
+    		$i.css('color', 'black');
+    	}
+
+        $.ajax({
+    		url : '/api/ReplyLike/' + number+'/'+username,
+    		method : 'POST',
+    		success : function(data) {
+    			console.log(data.likecount);
+    			
+    			
+
+    			
+    		} // success
+    	});
+    }
     
+    function reply(num){
+    	
+		
+		var obj = $('form#frm'+num).serializeObject();
+		console.log(obj);
+		console.log(typeof obj);
+		
+		var strJson = JSON.stringify(obj);
+		console.log(strJson);
+		console.log(typeof strJson);
+		
+		
+		// ajax 함수 호출
+		$.ajax({
+			url: '/api/reply',
+			method: 'POST',
+			data: strJson,
+			contentType: 'application/json; charset=UTF-8',
+			success: function (data) {
+				console.log(data);
+				
+				
+			}
+		});
+		
+    }
     
     
     
