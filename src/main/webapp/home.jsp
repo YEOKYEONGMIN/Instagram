@@ -20,13 +20,14 @@ BoardDAO boardDAO = BoardDAO.getInstance();
 AttachDAO attachDAO = AttachDAO.getInstance();
 ReplyDAO replyDAO = ReplyDAO.getInstance();
 //board 테이블에서 전체글 리스트로 가져오기 
-List<BoardVO> boardList = boardDAO.getBoards();
+
 MemberDAO memberDAO = MemberDAO.getInstance();
 BoardLikeDAO boardLikeDAO = BoardLikeDAO.getInstance();
 ReplyLikeDAO replyLikeDAO = ReplyLikeDAO.getInstance();
 
 //아이디에 해당하는 자신의 정보를 DB에서 가져오기
 MemberVO memberVO = memberDAO.getMemberById(id);
+List<BoardVO> boardList = boardDAO.getBoards();
 List<ReplyVO> replyList;
 List<AttachVO> attachList;
 int count;
@@ -170,7 +171,7 @@ String username;
                             	 	<%} %>
                             	 	</button></li>
                             	 <% i++;
-                            	 if(i==1)
+                            	 if(i==2)
                             		 break;
                              }
                             %>
@@ -183,8 +184,8 @@ String username;
                     <div class="sl__item__input">
 						<input type="hidden" name="replyBno" value="<%=num%>">
 						<input type="hidden" name="replyUsername" value="<%=memberVO.getUsername() %>" >                 
-                        <input type="text" name="replyComent" placeholder="댓글 달기...">
-                        <button type="button" id ="replybtn<%=num%>" onclick="reply(<%=num%>)" >게시</button>
+                        <input type="text" name="replyComent" onkeyup="replyInput(<%=num%>)" id="replyInput<%=num%>"placeholder="댓글 달기...">
+                        <button type="button" id="replybtn<%=num%>" onclick="reply(<%=num%>)" disabled >게시</button>
                     </div>
                     </form>
                 </div>
@@ -312,15 +313,31 @@ String username;
     			console.log(data.likecount);
     			
     			
-
-    			
     		} // success
     	});
     }
+
+	function replyInput(num){
+		var str = "replybtn"+num;
+		var btn = document.getElementById(str);
+		var text =$('#replyInput'+num).val();
+		var len = text.length;
+		console.log(len);
+		console.log(btn);
+		if(len>0){
+			btn.disabled = false;
+			$("#replybtn"+num).css('cursor','pointer');
+		}else if (len==0){
+			btn.disabled = true;
+			$("#replybtn"+num).css('cursor','auto');
+		}
+		
+	}
+    
     
     function reply(num){
     	
-		
+    	
 		var obj = $('form#frm'+num).serializeObject();
 		console.log(obj);
 		console.log(typeof obj);
