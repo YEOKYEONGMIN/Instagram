@@ -166,5 +166,25 @@ public class ReplyDAO {
 		}
 		
 	}
+	public void deleteReplyByNum(int num) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			con = JdbcUtils.getConnection();
+
+			String sql = "DELETE FROM reply WHERE reply_bno = ?";
+
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, num);
+
+			pstmt.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JdbcUtils.close(con, pstmt);
+		}
+	} // deleteBoardByNum
 	
 }

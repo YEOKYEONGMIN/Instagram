@@ -28,13 +28,14 @@ public class ReplyLikeDAO {
 			con = JdbcUtils.getConnection();
 			
 			String sql = "";
-			sql = "INSERT INTO replylike (replylike_username, replylike_num, replylike_like, replylike_regDate) ";
-			sql += "VALUES (?, ?, 1, ?) ";
+			sql = "INSERT INTO replylike (replylike_username, replylike_num, replylike_like, replylike_regDate, bno) ";
+			sql += "VALUES (?, ?, 1, ?, ?) ";
 			
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, replyLikeVO.getReplylikeUsername());
 			pstmt.setInt(2, replyLikeVO.getReplylikeNum());
 			pstmt.setTimestamp(3, replyLikeVO.getReplylikeRegDate());
+			pstmt.setInt(4, replyLikeVO.getBno());
 
 			pstmt.executeUpdate();
 			
@@ -187,4 +188,24 @@ public class ReplyLikeDAO {
 		return like;
 	}
 	
+	public void deleteReplyLikeByNum(int num) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			con = JdbcUtils.getConnection();
+
+			String sql = "DELETE FROM replylike WHERE bno = ?";
+
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, num);
+
+			pstmt.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JdbcUtils.close(con, pstmt);
+		}
+	} // deleteBoardByNum
 }

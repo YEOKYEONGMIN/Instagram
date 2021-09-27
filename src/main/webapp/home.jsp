@@ -89,7 +89,7 @@ String username;
                         } 
                         %>
                         <div><span><%=boardVO.getUsername() %></span><br><%=boardVO.getLocation() %></div>
-                        <div><button onclick="popup();"><i class="fas fa-ellipsis-h"></i></button></div>
+                        <div><button onclick="popup(<%=boardVO.getNum()%>);"><i class="fas fa-ellipsis-h"></i></button></div>
                     </div>
                     <div class="flex">
                         <div class="carousel">
@@ -162,6 +162,7 @@ String username;
                             	 %>
                             	 
                             	 <li><span><%=replyVO.getReplyUsername() %></span><%=replyVO.getReplyComent() %>
+                            	 <input type="hidden" value="<%=boardVO.getNum() %>">
                             	 <input type="hidden" value="<%=memberVO.getUsername() %>"/>
                             	 <button type="button" id="replylikeBtn<%=replyVO.getNum() %>" onclick="replylike(<%=replyVO.getNum()%>);">
                             	 <%if(replyLikeDAO.getLike(replyVO.getNum(), memberVO.getUsername())==0) {%>
@@ -189,6 +190,20 @@ String username;
                     </div>
                     </form>
                 </div>
+                
+                
+                 <div class="modal-container" id="modal-container<%=num%>">
+        			<div class="modal">
+            			<button onclick="delBoard(<%=num%>)">삭제</button>
+            			<button onclick="location.href = '/board/boardContent.jsp?num=<%=num%>';">게시물로 이동</button>
+            			<button>Share to...</button>
+            			<button>링크복사</button>
+           				<button>퍼가기</button>
+            			<button id="cancel" onclick="closePopup(<%=num%>)">취소</button>
+        			</div>
+    			</div>
+                
+                
                     	<%
             }
                     %>
@@ -197,17 +212,7 @@ String username;
             </article>
         </section>
     </main>
-    <div class="modal-container">
-        <div class="modal">
-            <button>신고</button>
-            <button>팔로우 취소</button>
-            <button>게시물로 이동</button>
-            <button>Share to...</button>
-            <button>링크복사</button>
-            <button>퍼가기</button>
-            <button id="cancel" onclick="closePopup()">취소</button>
-        </div>
-    </div>
+   
     <div class="modal-heart">
         <div class="follow">
             <div class="follow__item">
@@ -296,8 +301,10 @@ String username;
     function replylike(number){
     	var $i = $('#replylikeBtn'+number).children();
     	var username= $('#replylikeBtn'+number).prev().val();
+    	var bno= $('#replylikeBtn'+number).prev().prev().val();
     	console.log(number);
     	console.log(username);
+    	console.log(bno);
     	if($i.hasClass("far fa-heart") === true){
     		$i.removeClass('far fa-heart').addClass('fas fa-heart');
     		$i.css('color', 'red');
@@ -307,7 +314,7 @@ String username;
     	}
 
         $.ajax({
-    		url : '/api/ReplyLike/' + number+'/'+username,
+    		url : '/api/ReplyLike/' + number+'/'+username +'/'+bno,
     		method : 'POST',
     		success : function(data) {
     			console.log(data.likecount);
@@ -334,7 +341,19 @@ String username;
 		
 	}
     
-    
+	function delBoard(num){
+		
+		$.ajax({
+			url: '/api/boards/' +num,
+			method: 'DELETE',
+			success: function(data){
+				if(data.result == 'success'){
+					location.href = '/home.jsp';
+				}
+			}
+		});
+	}
+     
     function reply(num){
     	
     	
@@ -362,19 +381,17 @@ String username;
 		
     }
     
-    
-    
-        function popup() {
-            document.querySelector('.modal-container').style.display = "flex";
-        }
-        function closePopup() {
+    function popup(num) {
+    	document.querySelector('#modal-container'+num).style.display = "flex";
+    }
+    function closePopup(num) {
+        document.querySelector('#modal-container'+num).style.display = "none";
+    }
+    document.querySelector('.modal-container').addEventListener('click', (e) => {
+        if (e.target.tagName === "DIV") {
             document.querySelector('.modal-container').style.display = "none";
         }
-        document.querySelector('.modal-container').addEventListener('click', (e) => {
-            if (e.target.tagName === "DIV") {
-                document.querySelector('.modal-container').style.display = "none";
-            }
-        });
+    });
     </script>
     <script src="/js/follow.js"></script>
 </body>

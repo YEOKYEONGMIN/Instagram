@@ -23,6 +23,9 @@ import com.example.domain.AttachVO;
 import com.example.domain.BoardVO;
 import com.example.repository.AttachDAO;
 import com.example.repository.BoardDAO;
+import com.example.repository.BoardLikeDAO;
+import com.example.repository.ReplyDAO;
+import com.example.repository.ReplyLikeDAO;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.oreilly.servlet.MultipartRequest;
@@ -37,6 +40,10 @@ public class BoardRestServlet extends HttpServlet {
 	
 	private BoardDAO boardDAO = BoardDAO.getInstance();
 	private AttachDAO attachDAO = AttachDAO.getInstance();
+	private BoardLikeDAO boardLikeDAO = BoardLikeDAO.getInstance();
+	private ReplyDAO replyDAO = ReplyDAO.getInstance();
+	private ReplyLikeDAO replyLikeDAO = ReplyLikeDAO.getInstance();
+	
 	
 	private Gson gson;
 	
@@ -276,6 +283,9 @@ public class BoardRestServlet extends HttpServlet {
 		attachDAO.deleteAttachesByBno(num);
 		// DB 게시글 정보 삭제하기
 		boardDAO.deleteBoardByNum(num);
+		boardLikeDAO.deleteBoardLikeByNum(num);
+		replyDAO.deleteReplyByNum(num);
+		replyLikeDAO.deleteReplyLikeByNum(num);
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("result", "success");

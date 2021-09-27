@@ -191,7 +191,46 @@ public class BoardDAO {
 		}
 		return list;
 	} // getBoards
+	
+	public List<BoardVO> getBoards(String username) {
+		List<BoardVO> list = new ArrayList<>();
 
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			con = JdbcUtils.getConnection();
+
+			String sql = "";
+			sql = "SELECT * ";
+			sql += "FROM board ";
+			sql += "WHERE username = ? ";
+			sql += "ORDER BY num DESC ";
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, username);
+			
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				BoardVO boardVO = new BoardVO();
+				boardVO.setNum(rs.getInt("num"));
+				boardVO.setUsername(rs.getString("username"));
+				boardVO.setContent(rs.getString("content"));
+				boardVO.setLikecount(rs.getInt("likecount"));
+				boardVO.setRegDate(rs.getTimestamp("regDate"));
+				boardVO.setIpaddr(rs.getString("ipaddr"));
+				boardVO.setLocation(rs.getString("location"));
+				list.add(boardVO);
+			} // while
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JdbcUtils.close(con, pstmt, rs);
+		}
+		return list;
+	} // getBoards
 	
 
 	public BoardVO getBoard(int num) {

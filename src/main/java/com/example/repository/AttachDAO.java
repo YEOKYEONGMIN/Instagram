@@ -87,6 +87,42 @@ public class AttachDAO {
 		return list;
 	} // getAttachesByBno
 	
+	public AttachVO getAttachesByBno2(int bno) {
+		AttachVO attachVO = new AttachVO();
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			con = JdbcUtils.getConnection();
+
+			String sql = "";
+			sql = "SELECT * ";
+			sql += "FROM attach ";
+			sql += "WHERE bno = ? ";
+			sql += "ORDER BY  filename ";
+
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, bno);
+
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				
+				attachVO.setUuid(rs.getString("uuid"));
+				attachVO.setUploadpath(rs.getString("uploadpath"));
+				attachVO.setFilename(rs.getString("filename"));
+				attachVO.setBno(rs.getInt("bno"));
+			} // while
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JdbcUtils.close(con, pstmt, rs);
+		}
+		return attachVO;
+	} // getAttachesByBno
+	
 	public List<AttachVO> getAttachesByUploadpath(String uploadpath) {
 		List<AttachVO> list = new ArrayList<>();
 

@@ -145,14 +145,7 @@ List<AttachVO> attachList;
 							</div>
 						</div>
 						<div class="sprite_more_icon" data-name="more">
-						<button><i class="fas fa-ellipsis-h"></i></button>
-							
-							
-							<ul class="more_detail">
-								<li>팔로우</li>
-								<li>수정</li>
-								<li>삭제</li>
-							</ul>
+						<button onclick="popup(<%=boardVO.getNum()%>);"><i class="fas fa-ellipsis-h"></i></button>
 						</div>
 
 					</header>
@@ -256,10 +249,19 @@ List<AttachVO> attachList;
 						<button type="button" id="replybtn<%=num%>" onclick="reply(<%=num%>)" disabled >게시</button>
 					</div>
 				</div>
+				<div class="modal-container" id="modal-container<%=num%>">
+       				<div class="modal">
+           				<button onclick="delBoard(<%=num%>)">삭제</button>
+           				<button onclick="location.href = '/board/boardContent.jsp?num=<%=num%>';">공유 대상</button>
+           				<button>링크 복사</button>
+       					<button>퍼가기</button>
+           				<button id="cancel" onclick="closePopup(<%=num%>)">취소</button>
+       				</div>
+   				</div>
 			</article>
 		</div>
 	</section>
-
+	
 
 	<script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TimelineMax.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js'></script>
@@ -373,6 +375,19 @@ List<AttachVO> attachList;
 		});
 		
     }
+    
+    
+    function popup(num) {
+    	document.querySelector('#modal-container'+num).style.display = "flex";
+    }
+    function closePopup(num) {
+        document.querySelector('#modal-container'+num).style.display = "none";
+    }
+    document.querySelector('.modal-container').addEventListener('click', (e) => {
+        if (e.target.tagName === "DIV") {
+            document.querySelector('.modal-container').style.display = "none";
+        }
+    });
     </script>
 </body>
 </html>

@@ -10,4 +10,5 @@ public class ReplyLikeVO {
 	private Integer replylikeNum;
 	private Integer replylikeLike;
 	private Timestamp replylikeRegDate;
+	private Integer bno;
 }

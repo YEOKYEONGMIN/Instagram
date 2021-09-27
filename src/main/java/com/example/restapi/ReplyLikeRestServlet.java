@@ -49,12 +49,16 @@ private static final String BASE_URI = "/api/ReplyLike";
 		String snum = strArr[0];
 		int num = Integer.parseInt(snum); 
 		String username = strArr[1];
+		String sbno = strArr[2];
+		int bno = Integer.parseInt(sbno);
 		System.out.println("num : " + num);
 		System.out.println("username : "+username);
+		System.out.println("bno : "+bno);
 		ReplyLikeVO replyLikeVO = new ReplyLikeVO();
 		replyLikeVO.setReplylikeNum(num);
 		replyLikeVO.setReplylikeUsername(username);
 		replyLikeVO.setReplylikeRegDate(new Timestamp(System.currentTimeMillis()));
+		replyLikeVO.setBno(bno);
 		if(replyLikeDAO.getreplyUsernameCount(num, username)==0) {
 			replyLikeDAO.replyLike(replyLikeVO);
 		}

@@ -183,5 +183,25 @@ public class BoardLikeDAO {
 		
 		return like;
 	}
+	public void deleteBoardLikeByNum(int num) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			con = JdbcUtils.getConnection();
+
+			String sql = "DELETE FROM boardlike WHERE bno = ?";
+
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, num);
+
+			pstmt.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JdbcUtils.close(con, pstmt);
+		}
+	} // deleteBoardByNum
 	
 }

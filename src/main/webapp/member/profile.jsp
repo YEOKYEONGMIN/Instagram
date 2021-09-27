@@ -1,3 +1,11 @@
+<%@page import="com.example.domain.ReplyVO"%>
+<%@page import="com.example.domain.AttachVO"%>
+<%@page import="com.example.domain.BoardVO"%>
+<%@page import="java.util.List"%>
+<%@page import="com.example.repository.BoardLikeDAO"%>
+<%@page import="com.example.repository.ReplyDAO"%>
+<%@page import="com.example.repository.AttachDAO"%>
+<%@page import="com.example.repository.BoardDAO"%>
 <%@page import="com.example.domain.MemberVO"%>
 <%@page import="com.example.repository.MemberDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -10,6 +18,14 @@ MemberDAO memberDAO = MemberDAO.getInstance();
 
 //아이디에 해당하는 자신의 정보를 DB에서 가져오기
 MemberVO memberVO = memberDAO.getMemberById(id);
+
+BoardDAO boardDAO = BoardDAO.getInstance();
+AttachDAO attachDAO = AttachDAO.getInstance();
+ReplyDAO replyDAO = ReplyDAO.getInstance();
+
+List<BoardVO> boardList = boardDAO.getBoards(memberVO.getUsername());
+AttachVO attachVO = new AttachVO();
+ReplyVO replyVO = new ReplyVO();
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -156,48 +172,22 @@ MemberVO memberVO = memberDAO.getMemberById(id);
             <!--Tab1-->
             <div id="tab-1-content" class="tab-content-item show">
                 <div class="tab-1-content-inner">
-                    <div class="img-box">
-                        <a href=""><img src="/images/profile.jpeg" alt=""></a>
-                        <div class="comment">
-                            <a href="#a" class=""><i class="fas fa-heart"></i><span>36</span></a>
-                            <a href="#a" class=""><i class="fas fa-comment"></i><span>10</span></a>
+                   
+                      <% for (BoardVO boardVO : boardList) {
+                    	  int num=boardVO.getNum();
+                    	  attachVO = attachDAO.getAttachesByBno2(num);
+                    	  String fileCallPath = attachVO.getUploadpath() + "/" + attachVO.getFilename();
+                    	  %>
+                    	  <div class="img-box">
+                    	  <a href="/board/boardContent.jsp?num=<%=num%>"><img src="/board/display.jsp?fileName=<%=fileCallPath %>" alt=""></a>
+                        	<div class="comment">
+                            <a href="#a" class=""><i class="fas fa-heart"></i><span><%=boardVO.getLikecount() %></span></a>
+                            <a href="#a" class=""><i class="fas fa-comment"></i><span><%=replyDAO.getReplyCount(num) %></span></a>
+                        	</div>
                         </div>
-                    </div>
-                    <div class="img-box">
-                        <a href=""><img src="/images/profile.jpeg" alt=""></a>
-                        <div class="comment">
-                            <a href="#a" class=""><i class="fas fa-heart"></i><span>36</span></a>
-                            <a href="#a" class=""><i class="fas fa-comment"></i><span>10</span></a>
-                        </div>
-                    </div>
-                    <div class="img-box">
-                        <a href=""><img src="/images/profile.jpeg" alt=""></a>
-                        <div class="comment">
-                            <a href="#a" class=""><i class="fas fa-heart"></i><span>36</span></a>
-                            <a href="#a" class=""><i class="fas fa-comment"></i><span>10</span></a>
-                        </div>
-                    </div>
-                    <div class="img-box">
-                        <a href=""><img src="/images/profile.jpeg" alt=""></a>
-                        <div class="comment">
-                            <a href="#a" class=""><i class="fas fa-heart"></i><span>36</span></a>
-                            <a href="#a" class=""><i class="fas fa-comment"></i><span>10</span></a>
-                        </div>
-                    </div>
-                    <div class="img-box">
-                        <a href=""><img src="/images/profile.jpeg" alt=""></a>
-                        <div class="comment">
-                            <a href="#a" class=""><i class="fas fa-heart"></i><span>36</span></a>
-                            <a href="#a" class=""><i class="fas fa-comment"></i><span>10</span></a>
-                        </div>
-                    </div>
-                    <div class="img-box">
-                        <a href=""><img src="/images/profile.jpeg" alt=""></a>
-                        <div class="comment">
-                            <a href="#a" class=""><i class="fas fa-heart"></i><span>36</span></a>
-                            <a href="#a" class=""><i class="fas fa-comment"></i><span>10</span></a>
-                        </div>
-                    </div>
+                    	  <%} %>
+                    
+                    
                 </div>
             </div>
 
