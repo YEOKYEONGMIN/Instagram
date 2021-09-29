@@ -49,7 +49,7 @@ MemberVO memberVO = memberDAO.getMemberById(id);
 				<li class="navi-item"><a href="" id="followBtn"><i
 						class="far fa-heart"></i></a></li>
 				<li class="navi-item"><a href="/member/profile.jsp"><span
-						class="my-account"><img src="/images/profile.jpeg"></span></a></li>
+						class="my-account"><img src="/images/profileImg.jpg"></span></a></li>
 			</ul>
 		</nav>
 		</div>

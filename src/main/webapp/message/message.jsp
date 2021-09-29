@@ -1,16 +1,27 @@
+<%@page import="com.example.domain.MemberVO"%>
+<%@page import="com.example.repository.MemberDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+String id = (String) session.getAttribute("id");
+System.out.println("id :" + id );
+
+MemberDAO memberDAO = MemberDAO.getInstance();
+MemberVO memberVO = memberDAO.getMemberById(id);
+%>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Instagram</title>
     <!-- Favicon -->
     <link rel="shortcut icon" href="../img/insta.svg">
     <!-- Style -->
-    <link rel="stylesheet" href="css/message.css">
+    <link rel="stylesheet" href="/css/message.css">
     <!-- Fontawesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 
@@ -33,14 +44,14 @@
                     <div class="friend__id">
                         <ul class="friend__id__list">
                             <li>
-                                <div class="friend__profile"><img src="images/profile.jpeg" alt=""></div>
+                                <div class="friend__profile"><img src="/images/profileImg.jpg" alt=""></div>
                                 <div class="friend__state">
                                     <p>이름</p>
                                     <p>상태메세지</p>
                                 </div>
                             </li>
                             <li>
-                                <div class="friend__profile"><img src="images/profile.jpeg" alt=""></div>
+                                <div class="friend__profile"><img src="/images/profileImg.jpg" alt=""></div>
                                 <div class="friend__state">
                                     <p>이름</p>
                                     <p>상태메세지</p>
@@ -55,7 +66,7 @@
                             <div><i class="far fa-paper-plane"></i></div>
                             <h2>내 메시지</h2>
                             <p>친구나 그룹에 비공개 사진과 메시지를 보내보세요.</p>
-                            <button>메세지 보내기</button>
+                            <button onclick="location.href = '/message/simpleChat.jsp?';">메세지 보내기</button>
                         </div>
                     </div>
                 </div>
@@ -107,7 +118,7 @@
         </div>
     </div>
     <script src="/js/jquery-3.6.0.js"></script>
-    <script src="js/follow.js"></script>
+    <script src="/js/follow.js"></script>
     <script>
      $('#profile').on('click',function(){
     	$ul = $('#profile').children();

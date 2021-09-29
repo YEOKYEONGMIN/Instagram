@@ -36,8 +36,8 @@ public class MemberDAO {
 
 			// 3단계. sql 생성
 			String sql = "";
-			sql = "INSERT INTO member (id, passwd, username, name, birthday) ";
-			sql += "VALUES (?, ?, ?, ?, ?) ";
+			sql = "INSERT INTO member (id, passwd, username, name, birthday, web, memo, email, phone, gender) ";
+			sql += "VALUES (?, ?, ?, ?, ?, '', '', '', '', '') ";
 			// sql문장객체 준비
 			pstmt = con.prepareStatement(sql);
 
