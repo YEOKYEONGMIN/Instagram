@@ -145,7 +145,7 @@ List<AttachVO> attachList;
 							</div>
 						</div>
 						<div class="sprite_more_icon" data-name="more">
-						<button onclick="popup(<%=boardVO.getNum()%>);"><i class="fas fa-ellipsis-h"></i></button>
+						<button onclick="popup();"><i class="fas fa-ellipsis-h"></i></button>
 						</div>
 
 					</header>
@@ -199,10 +199,11 @@ List<AttachVO> attachList;
 								</div>
 								<div class="icon_wrap">
 									<div class="more_trigger">
-										<div class="menu"><button><i class="fas fa-ellipsis-h"></i></button></div>
+										<div class="menu"><button onclick="replyPopup(<%=replyVO.getNum()%>)"><i class="fas fa-ellipsis-h"></i></button></div>
 									</div>
 									
 									<div class="heart">
+									<input type="hidden" value="<%=boardVO.getNum() %>">
 									<input type="hidden" value="<%=memberVO.getUsername() %>"/>
 									<button type="button" id="replylikeBtn<%=replyVO.getNum() %>" onclick="replylike(<%=replyVO.getNum()%>);">
 									 <%if(replyLikeDAO.getLike(replyVO.getNum(), memberVO.getUsername())==0) {%>
@@ -214,6 +215,13 @@ List<AttachVO> attachList;
 								</div>
 							</div>
 						</div>
+						<div class="modal-container1" id="modal-container<%=replyVO.getNum()%>">
+       						<div class="modal1">
+       							<button>신고</button>
+           						<button onclick="delReply(<%=replyVO.getNum()%>,<%=boardVO.getNum()%>)">삭제</button>
+           						<button id="cancel" onclick="closeReplyPopup(<%=replyVO.getNum()%>)">취소</button>
+       						</div>
+   						</div>
 						<%}   %>
 						
 					</section>
@@ -235,7 +243,7 @@ List<AttachVO> attachList;
 
 					<div class="count_likes">
 						<%if(boardVO.getLikecount()>0){ %>
-						좋아요 <span class="count"><%=boardVO.getLikecount() %></span> 개
+						 <span class="count">좋아요 <%=boardVO.getLikecount() %>개</span> 
 						<% } else { %>
       							<span class="count"></span>
                         <%} %>
@@ -248,16 +256,18 @@ List<AttachVO> attachList;
 						<input type="text" name="replyComent" onkeyup="replyInput(<%=num%>)" id="replyInput<%=num%>" placeholder="댓글달기..">
 						<button type="button" id="replybtn<%=num%>" onclick="reply(<%=num%>)" disabled >게시</button>
 					</div>
+					</form>
 				</div>
-				<div class="modal-container" id="modal-container<%=num%>">
+				<div class="modal-container">
        				<div class="modal">
            				<button onclick="delBoard(<%=num%>)">삭제</button>
-           				<button onclick="location.href = '/board/boardContent.jsp?num=<%=num%>';">공유 대상</button>
+           				<button>공유 대상</button>
            				<button>링크 복사</button>
        					<button>퍼가기</button>
-           				<button id="cancel" onclick="closePopup(<%=num%>)">취소</button>
+           				<button id="cancel" onclick="closePopup()">취소</button>
        				</div>
    				</div>
+   				
 			</article>
 		</div>
 	</section>
@@ -270,6 +280,14 @@ List<AttachVO> attachList;
 	<script src="/js/jquery-3.6.0.js"></script>
     <script src="/js/jquery.serializeObject.min.js"></script>
     <script>
+    $('#profile').on('click',function(){
+    	$ul = $('#profile').children();
+    	if($ul.hasClass('drop')===true){
+    		$ul.removeClass('drop')
+    	}else{
+    		$ul.addClass('drop');
+    	}
+    });
 	function like(num){
     	var $i = $('#btn'+num).children();
     	var bno = $('#btn'+num).prev().val();
@@ -293,7 +311,7 @@ List<AttachVO> attachList;
     			console.log(data.likecount);
     			
     			if(data.likecount>0)
-    				$span.html(data.likecount);
+    				$span.html('좋아요 '+data.likecount+'개');
     			else
     				$span.html('');
 
@@ -303,12 +321,14 @@ List<AttachVO> attachList;
     }
     
     function replylike(number){
-    	console.log(number);
     	var $i = $('#replylikeBtn'+number).children();
     	var username= $('#replylikeBtn'+number).prev().val();
+    	var bno= $('#replylikeBtn'+number).prev().prev().val();
     	var $span = $('.replylike'+number);
     	console.log(number);
     	console.log(username);
+    	console.log(bno);
+    	console.log($span);
     	if($i.hasClass("far fa-heart") === true){
     		$i.removeClass('far fa-heart').addClass('fas fa-heart');
     		$i.css('color', 'red');
@@ -318,7 +338,7 @@ List<AttachVO> attachList;
     	}
 
         $.ajax({
-    		url : '/api/ReplyLike/' + number+'/'+username,
+    		url : '/api/ReplyLike/' + number+'/'+username +'/'+bno,
     		method : 'POST',
     		success : function(data) {
     			console.log(data.likecount);
@@ -375,12 +395,46 @@ List<AttachVO> attachList;
 		});
 		
     }
+	function delBoard(num){
+		
+		$.ajax({
+			url: '/api/boards/' +num,
+			method: 'DELETE',
+			success: function(data){
+				if(data.result == 'success'){
+					location.href = '/home.jsp';
+				}
+			}
+		});
+	}
+	function delReply(num,bno){
+		
+		$.ajax({
+			url: '/api/reply/' +num,
+			method: 'DELETE',
+			success: function(data){
+				if(data.result == 'success'){
+					location.href = '/board/boardContent.jsp?num='+bno;
+				}
+			}
+		});
+	}
     
-    
-    function popup(num) {
+    function popup() {
+    	document.querySelector('.modal-container').style.display = "flex";
+    }
+    function closePopup() {
+        document.querySelector('.modal-container').style.display = "none";
+    }
+    document.querySelector('.modal-container').addEventListener('click', (e) => {
+        if (e.target.tagName === "DIV") {
+            document.querySelector('.modal-container').style.display = "none";
+        }
+    });
+    function replyPopup(num) {
     	document.querySelector('#modal-container'+num).style.display = "flex";
     }
-    function closePopup(num) {
+    function closeReplyPopup(num) {
         document.querySelector('#modal-container'+num).style.display = "none";
     }
     document.querySelector('.modal-container').addEventListener('click', (e) => {

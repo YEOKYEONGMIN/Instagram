@@ -18,14 +18,18 @@ import com.example.domain.ReplyVO;
 import com.example.repository.BoardDAO;
 import com.example.repository.BoardLikeDAO;
 import com.example.repository.ReplyDAO;
+import com.example.repository.ReplyLikeDAO;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 @WebServlet(urlPatterns = {"/api/reply/*"}, loadOnStartup = 1)
 public class ReplyRestServelt extends HttpServlet {
 	
+	private static final String BASE_URI = "/api/reply";
+	
 	private ReplyDAO replyDAO = ReplyDAO.getInstance();
 	private BoardDAO boardDAO = BoardDAO.getInstance();
+	private ReplyLikeDAO replyLikeDAO = ReplyLikeDAO.getInstance();
 	private Gson gson;
 	public ReplyRestServelt() {
 		GsonBuilder builder = new GsonBuilder();
@@ -35,6 +39,19 @@ public class ReplyRestServelt extends HttpServlet {
 	
 	@Override
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String requestURI = request.getRequestURI();
+		String bno = requestURI.substring(BASE_URI.length() + 1);
+		int num = Integer.parseInt(bno);
+		
+		replyDAO.deleteReplyByNum(num);
+		replyLikeDAO.deleteReplyLikeBynum(num);
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("result", "success");
+		
+		String strJson = gson.toJson(map);
+		
+		sendResponse(response, strJson);
 		
 	}
 

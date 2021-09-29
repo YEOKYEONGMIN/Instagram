@@ -62,8 +62,13 @@ ReplyVO replyVO = new ReplyVO();
 						class="far fa-compass"></i></a></li>
 				<li class="navi-item"><a href="" id="followBtn"><i
 						class="far fa-heart"></i></a></li>
-				<li class="navi-item"><a href="/member/profile.jsp"><span
-						class="my-account"><img src="/images/profile.jpeg"></span></a></li>
+				<li class="navi-item" id="profile"><a href="#"><span
+						class="my-account"><img src="/images/profile.jpeg"></span></a>
+					<ul>
+                        <li><a href="/member/profile.jsp"><i class="far fa-user-circle"></i> 프로필</a></li>
+                        <li><a href="/member/logout.jsp">로그아웃</a></li>
+                    </ul>		
+				</li>
 			</ul>
 		</nav>
 		</div>
@@ -307,10 +312,20 @@ ReplyVO replyVO = new ReplyVO();
             </div>
         </div>
     </div>
-
+	<script src="/js/jquery-3.6.0.js"></script>
     <script defer src="/js/profile.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="/js/follow.js"></script>
+    <script>
+     $('#profile').on('click',function(){
+    	$ul = $('#profile').children();
+    	if($ul.hasClass('drop')===true){
+    		$ul.removeClass('drop')
+    	}else{
+    		$ul.addClass('drop');
+    	}
+    });
+    </script>
 </body>
 
 </html>

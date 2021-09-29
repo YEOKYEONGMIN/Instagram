@@ -9,11 +9,11 @@ ul li a {color:#262626;}
 .setting-container .setting__menu {width: 237px;}
 .setting-container .setting__menu ul li a {display:inline-block;padding:16px 16px 16px 30px;}
 .setting-container .setting__menu ul li:last-child a{color: red;}
-.setting-container .setting__content {border-left: 1px solid gainsboro;display: flex;flex-direction: column;padding-top: 32px;margin-right: 10%;}
+.setting-container .setting__content {border-left: 1px solid gainsboro;display: flex;flex-direction: column;padding-top: 32px;margin-right: 10%;height: 695px; }
 .setting-container .setting__content > div {display: flex; margin-bottom: 20px;}
-
+.setting-container #frm{width: 696px; height: 695px;}
 .setting-container .setting__content .content-item__01 .item__btn {flex:4;}
-.setting-container .setting__content .content-item__01 .item__btn h2{font-size: 18px; font-weight: 500;}
+.setting-container .setting__content .content-item__01 .item__btn h2{font-size: 24px; font-weight: 500;}
 .setting-container .setting__content .content-item__01 .item__btn button {background-color: transparent; border: 0;color:#0095f6;font-weight: 600;font-size: 16px;cursor: pointer;}
 
 .setting-container .setting__content .content-item__01 .item__btn .filebox {display:inline-block; }

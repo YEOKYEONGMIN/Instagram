@@ -166,7 +166,7 @@ public class ReplyDAO {
 		}
 		
 	}
-	public void deleteReplyByNum(int num) {
+	public void deleteReplyByBno(int Bno) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 
@@ -176,7 +176,28 @@ public class ReplyDAO {
 			String sql = "DELETE FROM reply WHERE reply_bno = ?";
 
 			pstmt = con.prepareStatement(sql);
-			pstmt.setInt(1, num);
+			pstmt.setInt(1, Bno);
+
+			pstmt.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JdbcUtils.close(con, pstmt);
+		}
+	} // deleteBoardByBno
+	
+	public void deleteReplyByNum(int Num) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			con = JdbcUtils.getConnection();
+
+			String sql = "DELETE FROM reply WHERE num = ?";
+
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, Num);
 
 			pstmt.executeUpdate();
 

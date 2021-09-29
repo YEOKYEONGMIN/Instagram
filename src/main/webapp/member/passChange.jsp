@@ -24,7 +24,7 @@ MemberVO memberVO = memberDAO.getMemberById(id);
     <!-- Favicon -->
     <link rel="shortcut icon" href="../img/insta.svg">
     <!-- Style -->
-    <link rel="stylesheet" href="/css/profileSetting.css">
+    <link rel="stylesheet" href="/css/passChange.css">
     <!-- Fontawesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 
@@ -58,8 +58,8 @@ MemberVO memberVO = memberDAO.getMemberById(id);
         <section class="setting-container">
             <article class="setting__menu">
                 <ul>
-                    <li><a href="#" class="active">프로필 편집</a></li>
-                    <li><a href="/member/passChange.jsp">비밀번호 변경</a></li>
+                    <li><a href="/member/profileSetting.jsp">프로필 편집</a></li>
+                    <li><a href="#" class="active">비밀번호 변경</a></li>
                     <li><a href="#">앱 및 웹사이트</a></li>
                     <li><a href="#">이메일 및 SMS</a></li>
                     <li><a href="#">푸시 알림</a></li>
@@ -70,7 +70,7 @@ MemberVO memberVO = memberDAO.getMemberById(id);
                     <li><a href="/member/withdrawal.jsp">계정 삭제</a></li>
                 </ul>
             </article>
-            <form id="frm" enctype="multipart/form-data">
+            <form id="frm">
             <input type="hidden" name="id" value="<%=memberVO.getId() %>" />
             <article class="setting__content">
                 <div class="content-item__01">
@@ -87,78 +87,38 @@ MemberVO memberVO = memberDAO.getMemberById(id);
                    	%>
                     <div class="item__btn">
                         <h2><%=memberVO.getUsername() %></h2>
-                        <div class="filebox">
-                        <label for="profileImg">프로필 사진 바꾸기</label>
-                        <input type="file"  id="profileImg" class="profileImg" name="profileImg" accept="image/jpeg, image/jpg, image/png"  "/>
-                        </div>
                     </div>
                 </div>
                 <div class="content-item__02">
-                    <div class="item__title">이름</div>
+                    <div class="item__title">이전 비밀번호</div>
                     <div class="item__input">
-                        <input type="text" name="name" value="<%=memberVO.getName() %>" />
-                        <span>사람들이 이름, 별명 또는 비즈니스 이름 등 회원님의 알려진 이름을 사용하여 회원님의 계정을 찾을 수 있도록 도와주세요.</span>
-                        <span>이름은 14일 안에 두 번만 변경할 수 있습니다.</span>
+                        <input type="password" name="oldPasswd" />
                     </div>
                 </div>
                 <div class="content-item__03">
-                    <div class="item__title">사용자 이름</div>
+                    <div class="item__title">새 비밀번호</div>
                     <div class="item__input">
-                        <input type="text" name="username" value="<%=memberVO.getUsername() %>"  />
-                        <span>대부분의 경우 14일 이내에 사용자 이름을 다시 <%=username %>(으)로 변경할 수 있습니다. <a href="">더 알아보기</a></span>
+                        <input type="password" name="passwd"  id="passwd" />
                     </div>
                 </div>
                 <div class="content-item__04">
-                    <div class="item__title">웹사이트</div>
+                    <div class="item__title">새 비밀번호 확인</div>
                     <div class="item__input">
-                        <input type="text" name="web" value="<%=memberVO.getWeb() %>" placeholder="웹 사이트" />
-                    </div>
-                </div>
-                <div class="content-item__05">
-                    <div class="item__title">소개</div>
-                    <div class="item__input">
-                        <textarea name="memo" id="" rows="3" ><%=memberVO.getMemo() %></textarea>
-                    </div>
-                </div>
-                <div class="content-item__06">
-                    <div class="item__title"></div>
-                    <div class="item__input">
-                        <span><b>개인정보</b></span>
-                        <span>비즈니스나 반려동물 등에 사용된 계정인 경우에도 회원님의 개인 정보를 입력하세요. 공개 프로필에는 포함되지 않습니다.</span>
-                    </div>
-                </div>
-                <div class="content-item__07">
-                    <div class="item__title">이메일</div>
-                    <div class="item__input">
-                        <input type="text" name="email" value="<%=memberVO.getEmail() %>" placeholder="이메일"  />
-                    </div>
-                </div>
-                <div class="content-item__08">
-                    <div class="item__title">전화번호</div>
-                    <div class="item__input">
-                        <input type="text" name="phone" value="<%=memberVO.getPhone() %>" placeholder="전화번호" />
-                    </div>
-                </div>
-                <div class="content-item__09">
-                    <div class="item__title">성별</div>
-                    <div class="item__input">
-                        <input type="text" name="gender" />
-                    </div>
-                </div>
-                <div class="content-item__10">
-                    <div class="item__title">비슷한 계정 추천</div>
-                    <div class="item__input">
-                        <input type="checkbox" name="check" />
-                        <span>팔로우할 만한 비슷한 계정을 추천할 때 회원님의 계정을 포함합니다. <a href="">[?]</a></span>
+                        <input type="password" name="newPasswdChk" id="newPasswdChk" />
                     </div>
                 </div>
                 <div class="content-item__11">
                     <div class="item__title"></div>
                     <div class="item__input">
-                        <button type="button" id="btn">제출</button><a href="">계정을 일시적으로 비활성화</a>
+                        <button type="button" id="btn">비밀변호 변경</button>
                     </div>
                 </div>
-               
+              	 <div class="content-item__11">
+                    <div class="item__title"></div>
+                    <div class="item__input">
+                        <a href="">비밀번호를 잊으셨나요?</a>
+                    </div>
+                </div>
             </article>
              </form>
         </section>
@@ -233,54 +193,47 @@ MemberVO memberVO = memberDAO.getMemberById(id);
     <script src="/js/jquery.serializeObject.min.js"></script>
     <script src="/js/follow.js"></script>
     <script>
-    function readImage(input) {
-        // 인풋 태그에 파일이 있는 경우
-        if(input.files && input.files[0]) {
-            
-            // FileReader 인스턴스 생성
-            const reader = new FileReader()
-            // 이미지가 로드가 된 경우
-            reader.onload = e => {
-                const previewImage = document.getElementById("img")
-                previewImage.src = e.target.result
-            }
-            // reader가 이미지 읽도록 하기
-            reader.readAsDataURL(input.files[0])
-        }
-    }
-    // input file에 change 이벤트 부여
-    const inputImage = document.getElementById("profileImg")
-    inputImage.addEventListener("change", e => {
-        readImage(e.target)
-    })
     
     
     $('#btn').on('click', function () {
-		
 
-		var id = $('input[name="id"]').val();
+    	
+    	var pass = $('#passwd').val();
+    	var passChk = $('#newPasswdChk').val();
+    	console.log(pass);
+    	console.log(passChk);
 		
-		var form = $('form#frm')[0];
-		//console.log(form);
-		//console.log(typeof form);
+    	if(pass != passChk){
+    		alert("두 비밀번호가 일치하는지 확인하세요.");
+    		return;
+    	}
+    	
+    	
+    	var obj = $('form#frm').serializeObject();
+		console.log(obj);
+		console.log(typeof obj);
+		var strJson = JSON.stringify(obj);
+		console.log(strJson);
+		console.log(typeof strJson);
 		
-		var formData = new FormData(form); // 쿼리스트링으로 넘겨줌
-		console.log(formData);
-		console.log(typeof formData);
 		
 		
 		// ajax 함수 호출
 		$.ajax({
-			url: '/api/members/'+id,
+			url: '/api/members/pass',
 			method: 'PUT',
-			data: formData,
-			processData: false, // 파일전송시 false 설정 필수!
-			contentType: false, // 파일전송시 false 설정 필수!
+			data: strJson,
+			contentType: 'application/json; charset=UTF-8',
 			success: function (data) {
 				console.log(data);
+				if(data.BpassChk){
+					alert("비밀번호 변경성공");
+					location.href = '/member/profile.jsp';
+				}
+				else{
+					alert("이전 비밀번호가 잘못 입력되었습니다. 다시 입력해주세요.");
+				}
 				
-				alert(data.result);
-				location.href = '/member/profile.jsp';
 			}
 		});
 		

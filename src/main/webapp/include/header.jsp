@@ -16,8 +16,13 @@
 						class="far fa-compass"></i></a></li>
 				<li class="navi-item"><a href="" id="followBtn"><i
 						class="far fa-heart"></i></a></li>
-				<li class="navi-item"><a href="/member/profile.jsp"><span
-						class="my-account"><img src="images/profile.jpeg"></span></a></li>
+				<li class="navi-item" id="profile"><a href="#"><span
+						class="my-account"><img src="images/profile.jpeg"></span></a>
+					<ul>
+                        <li><a href="/member/profile.jsp"><i class="far fa-user-circle"></i> 프로필</a></li>
+                        <li><a href="/member/logout.jsp">로그아웃</a></li>
+                    </ul>		
+				</li>
 			</ul>
 		</nav>
 	</div>

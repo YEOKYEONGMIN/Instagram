@@ -153,7 +153,7 @@ String username;
                             <%} %>
                             <p><span><%=boardVO.getUsername()%></span>  <%=boardVO.getContent() %></p>
                             <% if(replyDAO.getReplyCount(num)>2){ %>
-                            <button>댓글 <%=replyDAO.getReplyCount(num) %>개 모두 보기</button>
+                            <button onclick="location.href = '/board/boardContent.jsp?num=<%=num%>';">댓글 <%=replyDAO.getReplyCount(num) %>개 모두 보기</button>
                             <%} %>
                             <ul class="comment">
                             <%replyList = replyDAO.getReply(num);
@@ -264,8 +264,15 @@ String username;
 	<script src="/js/jquery-3.6.0.js"></script>
     <script src="/js/jquery.serializeObject.min.js"></script>
     <script>
-    
-   
+    $('#profile').on('click',function(){
+    	$ul = $('#profile').children();
+    	if($ul.hasClass('drop')===true){
+    		$ul.removeClass('drop')
+    	}else{
+    		$ul.addClass('drop');
+    	}
+    });
+
     function like(num){
     	var $i = $('#btn'+num).children();
     	var bno = $('#btn'+num).prev().val();

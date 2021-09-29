@@ -284,8 +284,8 @@ public class BoardRestServlet extends HttpServlet {
 		// DB 게시글 정보 삭제하기
 		boardDAO.deleteBoardByNum(num);
 		boardLikeDAO.deleteBoardLikeByNum(num);
-		replyDAO.deleteReplyByNum(num);
-		replyLikeDAO.deleteReplyLikeByNum(num);
+		replyDAO.deleteReplyByBno(num);
+		replyLikeDAO.deleteReplyLikeByBno(num);
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("result", "success");

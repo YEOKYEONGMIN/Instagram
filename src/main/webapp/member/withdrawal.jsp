@@ -24,7 +24,7 @@ MemberVO memberVO = memberDAO.getMemberById(id);
     <!-- Favicon -->
     <link rel="shortcut icon" href="../img/insta.svg">
     <!-- Style -->
-    <link rel="stylesheet" href="/css/profileSetting.css">
+    <link rel="stylesheet" href="/css/withdrawal.css">
     <!-- Fontawesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 
@@ -58,7 +58,7 @@ MemberVO memberVO = memberDAO.getMemberById(id);
         <section class="setting-container">
             <article class="setting__menu">
                 <ul>
-                    <li><a href="#" class="active">프로필 편집</a></li>
+                    <li><a href="/member/profileSetting.jsp">프로필 편집</a></li>
                     <li><a href="/member/passChange.jsp">비밀번호 변경</a></li>
                     <li><a href="#">앱 및 웹사이트</a></li>
                     <li><a href="#">이메일 및 SMS</a></li>
@@ -67,98 +67,46 @@ MemberVO memberVO = memberDAO.getMemberById(id);
                     <li><a href="#">공개범위 및 보안</a></li>
                     <li><a href="#">로그인 활동</a></li>
                     <li><a href="#">Instagram에서 보낸 이메일</a></li>
-                    <li><a href="/member/withdrawal.jsp">계정 삭제</a></li>
+                    <li><a href="#" class="active">계정 삭제</a></li>
                 </ul>
             </article>
-            <form id="frm" enctype="multipart/form-data">
-            <input type="hidden" name="id" value="<%=memberVO.getId() %>" />
+            <form id="frm">
+            <input type="hidden" id="id" name="id" value="<%=memberVO.getId() %>" />
+            <input type="hidden" id="pass" name="pass" value="<%=memberVO.getPasswd() %>" />
             <article class="setting__content">
                 <div class="content-item__01">
-                	<%
-                   	if (memberVO.getProfileImg()==null ) { // 첨부파일이 없으면
-                   		%>
-                    <div class="item__img"><img id="img" src="/images/profile.jpeg" /></div>
-                    	<%
-                   	}else {
-                   		%>
-                   	<div class="item__img"><img id="img" src="/member/display.jsp?fileName=<%=memberVO.getProfileImg() %>"></div>
-                   	<%
-                   	}
-                   	%>
                     <div class="item__btn">
-                        <h2><%=memberVO.getUsername() %></h2>
-                        <div class="filebox">
-                        <label for="profileImg">프로필 사진 바꾸기</label>
-                        <input type="file"  id="profileImg" class="profileImg" name="profileImg" accept="image/jpeg, image/jpg, image/png"  "/>
-                        </div>
+                        <h2>계정 삭제</h2>
                     </div>
                 </div>
                 <div class="content-item__02">
-                    <div class="item__title">이름</div>
                     <div class="item__input">
-                        <input type="text" name="name" value="<%=memberVO.getName() %>" />
-                        <span>사람들이 이름, 별명 또는 비즈니스 이름 등 회원님의 알려진 이름을 사용하여 회원님의 계정을 찾을 수 있도록 도와주세요.</span>
-                        <span>이름은 14일 안에 두 번만 변경할 수 있습니다.</span>
+                        잠시 Instagram 활동을 쉬고 싶으시다면 계정을 삭제하는 대신 일시적으로 비활성화할 수 있습니다. Instagram 활동을 쉬는 동안에는 회원님의 프로필이 Instagram에 표시되지 않습니다.
                     </div>
                 </div>
+             
                 <div class="content-item__03">
-                    <div class="item__title">사용자 이름</div>
                     <div class="item__input">
-                        <input type="text" name="username" value="<%=memberVO.getUsername() %>"  />
-                        <span>대부분의 경우 14일 이내에 사용자 이름을 다시 <%=username %>(으)로 변경할 수 있습니다. <a href="">더 알아보기</a></span>
+                    	기본 계정이 삭제되는 것을 막기 위해 보조 계정으로 로그인했는지 확인해주세요. 현재 <span><%=memberVO.getUsername() %></span>(으)로 로그인한 상태입니다. 이 계정이 아닌 경우에는 먼저 로그아웃한 뒤 올바른 계정으로 로그인하세요.
                     </div>
                 </div>
                 <div class="content-item__04">
-                    <div class="item__title">웹사이트</div>
+                    <div class="item__title">비밀번호를 다시 입력하세요</div>
                     <div class="item__input">
-                        <input type="text" name="web" value="<%=memberVO.getWeb() %>" placeholder="웹 사이트" />
-                    </div>
-                </div>
-                <div class="content-item__05">
-                    <div class="item__title">소개</div>
-                    <div class="item__input">
-                        <textarea name="memo" id="" rows="3" ><%=memberVO.getMemo() %></textarea>
-                    </div>
-                </div>
-                <div class="content-item__06">
-                    <div class="item__title"></div>
-                    <div class="item__input">
-                        <span><b>개인정보</b></span>
-                        <span>비즈니스나 반려동물 등에 사용된 계정인 경우에도 회원님의 개인 정보를 입력하세요. 공개 프로필에는 포함되지 않습니다.</span>
-                    </div>
-                </div>
-                <div class="content-item__07">
-                    <div class="item__title">이메일</div>
-                    <div class="item__input">
-                        <input type="text" name="email" value="<%=memberVO.getEmail() %>" placeholder="이메일"  />
-                    </div>
-                </div>
-                <div class="content-item__08">
-                    <div class="item__title">전화번호</div>
-                    <div class="item__input">
-                        <input type="text" name="phone" value="<%=memberVO.getPhone() %>" placeholder="전화번호" />
-                    </div>
-                </div>
-                <div class="content-item__09">
-                    <div class="item__title">성별</div>
-                    <div class="item__input">
-                        <input type="text" name="gender" />
-                    </div>
-                </div>
-                <div class="content-item__10">
-                    <div class="item__title">비슷한 계정 추천</div>
-                    <div class="item__input">
-                        <input type="checkbox" name="check" />
-                        <span>팔로우할 만한 비슷한 계정을 추천할 때 회원님의 계정을 포함합니다. <a href="">[?]</a></span>
+                        <input type="password" name="passwd" id="passwd" />
                     </div>
                 </div>
                 <div class="content-item__11">
-                    <div class="item__title"></div>
                     <div class="item__input">
-                        <button type="button" id="btn">제출</button><a href="">계정을 일시적으로 비활성화</a>
+                        <a href="">비밀번호를 잊으셨나요?</a>
                     </div>
                 </div>
-               
+                <div class="content-item__11">
+                    
+                    <div class="item__input">
+                        <button type="button" id="btn"><%=memberVO.getUsername() %> 삭제</button>
+                    </div>
+                </div>
             </article>
              </form>
         </section>
@@ -233,57 +181,34 @@ MemberVO memberVO = memberDAO.getMemberById(id);
     <script src="/js/jquery.serializeObject.min.js"></script>
     <script src="/js/follow.js"></script>
     <script>
-    function readImage(input) {
-        // 인풋 태그에 파일이 있는 경우
-        if(input.files && input.files[0]) {
-            
-            // FileReader 인스턴스 생성
-            const reader = new FileReader()
-            // 이미지가 로드가 된 경우
-            reader.onload = e => {
-                const previewImage = document.getElementById("img")
-                previewImage.src = e.target.result
-            }
-            // reader가 이미지 읽도록 하기
-            reader.readAsDataURL(input.files[0])
-        }
-    }
-    // input file에 change 이벤트 부여
-    const inputImage = document.getElementById("profileImg")
-    inputImage.addEventListener("change", e => {
-        readImage(e.target)
-    })
     
     
     $('#btn').on('click', function () {
-		
-
-		var id = $('input[name="id"]').val();
-		
-		var form = $('form#frm')[0];
-		//console.log(form);
-		//console.log(typeof form);
-		
-		var formData = new FormData(form); // 쿼리스트링으로 넘겨줌
-		console.log(formData);
-		console.log(typeof formData);
-		
-		
-		// ajax 함수 호출
-		$.ajax({
-			url: '/api/members/'+id,
-			method: 'PUT',
-			data: formData,
-			processData: false, // 파일전송시 false 설정 필수!
-			contentType: false, // 파일전송시 false 설정 필수!
-			success: function (data) {
-				console.log(data);
-				
-				alert(data.result);
-				location.href = '/member/profile.jsp';
-			}
-		});
-		
+		var id = $('#id').val();
+		var pass = $('#pass').val();
+		var passwd = $('#passwd').val();
+		console.log(pass);
+		console.log(passwd);
+		if(pass==passwd){
+		 if (!confirm("확인(예) 또는 취소(아니오)를 선택해주세요.")) {
+		        return;
+		    } else {
+		    	$.ajax({
+					url: '/api/members/' + id,
+					method: 'DELETE',
+					success: function (data) {
+						console.log(data);
+						
+						if(data.isDeleted){
+							location.href = '/index.jsp';
+							
+						}
+					}
+				});	// ajax 함수 호출
+		    }
+		}else{
+			alert("비밀번호가 잘못 입력되었습니다. 다시 입력해주세요.");
+		}
 	});
     </script>
 </body>

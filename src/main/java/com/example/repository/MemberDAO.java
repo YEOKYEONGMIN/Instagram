@@ -256,7 +256,7 @@ public class MemberDAO {
 		}
 		return list;
 	} // getMembers
-public void updateById(MemberVO memberVO) {
+	public void updateById(MemberVO memberVO) {
 		
 		Connection con = null; // 접속
 		PreparedStatement pstmt = null; // sql문장객체 타입
@@ -305,4 +305,28 @@ public void updateById(MemberVO memberVO) {
 			JdbcUtils.close(con, pstmt);
 		}
 	} // updateById
+	public void passChange(String id, String pass) {
+		
+		Connection con = null; // 접속
+		PreparedStatement pstmt = null; // sql문장객체 타입
+		
+		try {
+			con = JdbcUtils.getConnection();
+			String sql = "";
+			sql = "UPDATE member ";
+			sql += "SET passwd = ? ";
+			sql += "WHERE id = ? ";
+
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, pass);
+			pstmt.setString(2, id);
+			
+			pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JdbcUtils.close(con, pstmt);
+		}
+	} // passChange
 }

@@ -188,7 +188,7 @@ public class ReplyLikeDAO {
 		return like;
 	}
 	
-	public void deleteReplyLikeByNum(int num) {
+	public void deleteReplyLikeByBno(int Bno) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 
@@ -196,6 +196,27 @@ public class ReplyLikeDAO {
 			con = JdbcUtils.getConnection();
 
 			String sql = "DELETE FROM replylike WHERE bno = ?";
+
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, Bno);
+
+			pstmt.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JdbcUtils.close(con, pstmt);
+		}
+	} // deleteBoardByBno
+	
+	public void deleteReplyLikeBynum(int num) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			con = JdbcUtils.getConnection();
+
+			String sql = "DELETE FROM replylike WHERE replylike_num = ?";
 
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, num);
@@ -207,5 +228,5 @@ public class ReplyLikeDAO {
 		} finally {
 			JdbcUtils.close(con, pstmt);
 		}
-	} // deleteBoardByNum
+	} // deleteBoardBynum
 }

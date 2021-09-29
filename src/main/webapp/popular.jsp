@@ -146,6 +146,17 @@
     <script defer src="../js/main.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="js/follow.js"></script>
+    <script src="/js/jquery-3.6.0.js"></script>
+    <script>
+     $('#profile').on('click',function(){
+    	$ul = $('#profile').children();
+    	if($ul.hasClass('drop')===true){
+    		$ul.removeClass('drop')
+    	}else{
+    		$ul.addClass('drop');
+    	}
+    });
+    </script>
 </body>
 
 </html>

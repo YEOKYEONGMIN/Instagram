@@ -24,7 +24,11 @@
 .modal-heart .follow .follow__item .follow__text p span {font-size: 16px; color:#aaa;margin-left: 5px;}
 .modal-heart .follow .follow__item .follow__btn {margin-left: auto;display: flex;align-items: center;}
 .modal-heart .follow .follow__item .follow__btn button{border: 0; background-color: #0095f6;color:#fff;padding: 10px;border-radius: 5px;font-size: 16px;cursor: pointer;}
-
+.navi > .navi-list .navi-item ul {width: 237px; display: none; position: absolute; margin-top: 40px; background-color: white; border-radius: 4%;}
+.navi > .navi-list .navi-item ul li{height: 37px; text-align: left; padding-left: 10px; padding-top: 5px;}
+.navi > .navi-list .navi-item ul li:first-child{border-bottom: 1px solid #ccc;}
+.navi > .navi-list .navi-item ul li a{color: #000; font-size: 14px;}
+.navi > .navi-list .navi-item .drop{display: block;}
 
 
 

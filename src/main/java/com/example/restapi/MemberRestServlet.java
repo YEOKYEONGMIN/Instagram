@@ -23,6 +23,7 @@ import com.example.domain.MemberVO;
 import com.example.repository.MemberDAO;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.JsonAdapter;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
@@ -142,100 +143,122 @@ public class MemberRestServlet extends HttpServlet {
 	} // doPost
 
 	@Override
-	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPut(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		String requestURI = request.getRequestURI();
-		String id = requestURI.substring(BASE_URI.length());
-		id = id.substring(1);
-		System.out.println("id : " + id);
-		MemberVO memberVO = new MemberVO();
-	
-		
-		
-		String uploadFolder = "C:/Javastudy/upload"; // 업로드 기준경로
+		String str = requestURI.substring(BASE_URI.length());
+		str = str.substring(1);
+		if (str.equals("pass")) {
+			System.out.println("pass 호출됨");
 
-		File uploadPath = new File(uploadFolder, getFolder()); // "C:/Javastudy/upload/2021/08/03"\
-		System.out.println("uploadPath : " + uploadPath.getPath());
-		
-		if (uploadPath.exists() == false) {
-			uploadPath.mkdirs();
+			BufferedReader reader = request.getReader();
+
+			// HTTP
+			String strJson = readMessageBody(reader);
+			String[] array = strJson.split("\"");
+			System.out.println("JSON 문자열 : " + strJson);
+			String id = array[3];
+			String oldPass = array[7];
+			String pass = array[11];
+			String passChk = array[15];
+			System.out.print(id + " " + oldPass + " " + pass + " " + passChk + "\n");
+
+			MemberVO chkMemberVO = memberDAO.getMemberById(id);
+			Boolean BpassChk = false;
+			if (chkMemberVO.getPasswd().equals(oldPass)) {
+				memberDAO.passChange(id, pass);
+				BpassChk = true;
+			}
+
+			Map<String, Object> map = new HashMap<>();
+			map.put("result", "success");
+			map.put("BpassChk", BpassChk);
+			// 자바객체 -> JSON 문자열로 반환
+			String strResponse = gson.toJson(map);
+
+			// 클라이언트 쪽으로 출력하기
+			sendResponse(response, strResponse);
+		} else {
+			String id = str;
+			System.out.println("업데이트 호출됨 ");
+			System.out.println("id : " + id);
+			MemberVO memberVO = new MemberVO();
+
+			String uploadFolder = "C:/Javastudy/upload"; // 업로드 기준경로
+
+			File uploadPath = new File(uploadFolder, getFolder()); // "C:/Javastudy/upload/2021/08/03"\
+			System.out.println("uploadPath : " + uploadPath.getPath());
+
+			if (uploadPath.exists() == false) {
+				uploadPath.mkdirs();
+			}
+
+			// MultipartRequest 인자값
+			// 1. request
+			// 2. 업로드할 물리적 경로. "C:/Javastudy/upload"
+			// 3. 업로드 최대크기 바이트 단위로 제한. 1024Byte * 1024Byte = 1MB
+			// 4. request의 텍스트 데이터, 파일명 인코딩 "utf-8"
+			// 5. 파일명 변경 정책. 파일명 중복시 이름변경규칙 가진 객체를 전달
+
+			// 파일 업로드하기
+			MultipartRequest multi = new MultipartRequest(request, uploadPath.getPath(), 1024 * 1024 * 50, "utf-8",
+					new DefaultFileRenamePolicy());
+			// ===== 파일 업로드 완료됨. =====
+
+			// input type="file" 태그들의 name 속성들을 가져오기
+			Enumeration<String> enu = multi.getFileNames(); // Iterator, Enumeration 반복자 객체
+
+			while (enu.hasMoreElements()) { // 파일이 있으면
+				String fname = enu.nextElement(); // name 속성값 : file0 file1 file2 ...
+
+				// 저장된 파일명 가져오기
+				String filename = multi.getFilesystemName(fname); // fname이 file0일때
+				System.out.println("FilesystemName : " + filename);
+
+				// 원본 파일명 가져오기
+				String original = multi.getOriginalFileName(fname);
+				System.out.println("OriginalFileName : " + original);
+
+				if (filename == null) { // 파일정보가 없으면
+					continue; // 그다음 반복으로 건너뛰기
+				}
+
+				File file = new File(uploadPath, filename); // 년월일 경로에 실제 파일명의 파일객체
+
+				if (filename != "null") {
+					memberVO.setProfileImg(uploadPath + "/" + filename);
+					str = memberVO.getProfileImg().replace("\\", "/");
+					memberVO.setProfileImg(str);
+				}
+			} // while
+
+			memberVO.setId(id); // 수정할 아이디 기준
+			memberVO.setName(multi.getParameter("name"));
+			memberVO.setUsername(multi.getParameter("username"));
+			memberVO.setWeb(multi.getParameter("web"));
+			memberVO.setMemo(multi.getParameter("memo"));
+			memberVO.setEmail(multi.getParameter("email"));
+			memberVO.setPhone(multi.getParameter("phone"));
+			memberVO.setGender(multi.getParameter("gender"));
+
+			System.out.println(memberVO.toString());
+
+			// 회원정보 수정하기
+			memberDAO.updateById(memberVO);
+			// 응답정보로 보낼 수정된 회원정보 가져오기
+			MemberVO updateMember = memberDAO.getMemberById(id);
+
+			// 응답데이터 준비
+			Map<String, Object> map = new HashMap<>();
+			map.put("result", "success");
+			map.put("member", updateMember);
+			// 자바객체 -> JSON 문자열로 반환
+			String strResponse = gson.toJson(map);
+
+			// 클라이언트 쪽으로 출력하기
+			sendResponse(response, strResponse);
 		}
-
-		// MultipartRequest 인자값
-		// 1. request
-		// 2. 업로드할 물리적 경로.  "C:/Javastudy/upload"
-		// 3. 업로드 최대크기 바이트 단위로 제한. 1024Byte * 1024Byte = 1MB 
-		// 4. request의 텍스트 데이터, 파일명 인코딩 "utf-8"
-		// 5. 파일명 변경 정책. 파일명 중복시 이름변경규칙 가진 객체를 전달
-		
-		// 파일 업로드하기
-		MultipartRequest multi = new MultipartRequest(
-				request
-				, uploadPath.getPath()
-				, 1024 * 1024 * 50
-				, "utf-8"
-				, new DefaultFileRenamePolicy());
-		// ===== 파일 업로드 완료됨. =====
-
-		// input type="file" 태그들의 name 속성들을 가져오기
-		Enumeration<String> enu = multi.getFileNames(); // Iterator, Enumeration 반복자 객체
-		
-		while (enu.hasMoreElements()) { // 파일이 있으면
-			String fname = enu.nextElement(); // name 속성값 : file0  file1  file2 ...
-			
-			// 저장된 파일명 가져오기
-			String filename = multi.getFilesystemName(fname); // fname이 file0일때
-			System.out.println("FilesystemName : " + filename);
-			
-			// 원본 파일명 가져오기
-			String original = multi.getOriginalFileName(fname);
-			System.out.println("OriginalFileName : " + original);
-			
-			if (filename == null) { // 파일정보가 없으면
-				continue; // 그다음 반복으로 건너뛰기
-			}
-			
-			
-			File file = new File(uploadPath, filename); // 년월일 경로에 실제 파일명의 파일객체
-			
-		
-			
-			
-			if(filename!="null") {
-				memberVO.setProfileImg(uploadPath+"/"+filename);
-				String str = memberVO.getProfileImg().replace("\\", "/");
-				memberVO.setProfileImg(str);
-			}
-		} // while
-		
-		
-		
-		
-		memberVO.setId(id); // 수정할 아이디 기준
-		memberVO.setName(multi.getParameter("name"));
-		memberVO.setUsername(multi.getParameter("username"));
-		memberVO.setWeb(multi.getParameter("web"));
-		memberVO.setMemo(multi.getParameter("memo"));
-		memberVO.setEmail(multi.getParameter("email"));
-		memberVO.setPhone(multi.getParameter("phone"));
-		memberVO.setGender(multi.getParameter("gender"));
-		
-		System.out.println(memberVO.toString());
-		
-		// 회원정보 수정하기
-		memberDAO.updateById(memberVO);
-		// 응답정보로 보낼 수정된 회원정보 가져오기
-		MemberVO updateMember = memberDAO.getMemberById(id);
-		
-		// 응답데이터 준비
-		Map<String, Object> map = new HashMap<>();
-		map.put("result", "success");
-		map.put("member", updateMember);
-		// 자바객체 -> JSON 문자열로 반환
-		String strResponse = gson.toJson(map);
-				
-		// 클라이언트 쪽으로 출력하기
-		sendResponse(response, strResponse);
-		} // doPut
+	} // doPut
 
 	@Override
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

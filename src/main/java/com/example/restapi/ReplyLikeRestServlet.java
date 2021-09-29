@@ -59,9 +59,6 @@ private static final String BASE_URI = "/api/ReplyLike";
 		replyLikeVO.setReplylikeUsername(username);
 		replyLikeVO.setReplylikeRegDate(new Timestamp(System.currentTimeMillis()));
 		replyLikeVO.setBno(bno);
-		if(replyLikeDAO.getreplyUsernameCount(num, username)==0) {
-			replyLikeDAO.replyLike(replyLikeVO);
-		}
 		if(replyLikeDAO.getreplyUsernameCount(num, username)==1) {
 			Timestamp date = (new Timestamp(System.currentTimeMillis()));
 			if(replyLikeDAO.getLike(num, username)==0) 
@@ -69,6 +66,10 @@ private static final String BASE_URI = "/api/ReplyLike";
 			else
 				replyLikeDAO.replyUnlike(num, username);
 		}
+		if(replyLikeDAO.getreplyUsernameCount(num, username)==0) {
+			replyLikeDAO.replyLike(replyLikeVO);
+		}
+		
 		int likecount = replyLikeDAO.getreplyLikeCount(num);
 		replyDAO.updateLikecount(likecount, num);
 		int like = replyLikeDAO.getLike(num, username);
