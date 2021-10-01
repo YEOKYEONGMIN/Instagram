@@ -161,7 +161,7 @@ String username;
                              for(ReplyVO replyVO : replyList){
                             	 %>
                             	 
-                            	 <li><span><%=replyVO.getReplyUsername() %></span><%=replyVO.getReplyComent() %>
+                            	 <li><span><%=replyVO.getReplyUsername() %></span><%=replyVO.getReplyComment() %>
                             	 <input type="hidden" value="<%=boardVO.getNum() %>">
                             	 <input type="hidden" value="<%=memberVO.getUsername() %>"/>
                             	 <button type="button" id="replylikeBtn<%=replyVO.getNum() %>" onclick="replylike(<%=replyVO.getNum()%>);">
@@ -178,14 +178,15 @@ String username;
                             %>
                                
                             </ul>
-                            <div class="sl__item__contents__timeline">2일 전</div>
+                            <input type="hidden" id="date<%=num%>" value="<%=boardVO.getRegDate() %>">
+                            <div class="sl__item__contents__timeline" id="date<%=num%>">2일 전</div>
                         </div>
                     </div>
                     <form id="frm<%=num%>">
                     <div class="sl__item__input">
 						<input type="hidden" name="replyBno" value="<%=num%>">
 						<input type="hidden" name="replyUsername" value="<%=memberVO.getUsername() %>" >                 
-                        <input type="text" name="replyComent" onkeyup="replyInput(<%=num%>)" id="replyInput<%=num%>"placeholder="댓글 달기...">
+                        <input type="text" name="replyComment" onkeyup="replyInput(<%=num%>)" id="replyInput<%=num%>"placeholder="댓글 달기...">
                         <button type="button" id="replybtn<%=num%>" onclick="reply(<%=num%>)" disabled >게시</button>
                     </div>
                     </form>
@@ -272,7 +273,7 @@ String username;
     		$ul.addClass('drop');
     	}
     });
-
+	
     function like(num){
     	var $i = $('#btn'+num).children();
     	var bno = $('#btn'+num).prev().val();
@@ -381,7 +382,7 @@ String username;
 			contentType: 'application/json; charset=UTF-8',
 			success: function (data) {
 				console.log(data);
-				
+				location.href = '/home.jsp';
 				
 			}
 		});

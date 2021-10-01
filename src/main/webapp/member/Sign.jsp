@@ -138,10 +138,6 @@
 				} // success
 			});
 			
-			
-				
-			
-			
 		});
 		$('input#name').on('focusout', function() {
 			pass = $('input#passwd').val();

@@ -162,17 +162,14 @@ MemberVO memberVO = memberDAO.getMemberById(id);
                 processData: false, //파일전송시 false 설정 필수
                 contentType: false, //파일전송시 false 설정 필수
                 success: function (data) {
-                    console.log(data);
+                    console.log(data.board);
+                    console.log(data.attachList);
+                    
 
                     if (data.result == 'success') {
                         alert('파일 업로드 완료');
                         location.href = '/home.jsp';
                     }
-
-                    $('form#frm')[0].reset();
-
-                    $('div#fileBox').html(cloneObj.html());
-                    showUploadedFile(data.attachList);
                 }
             });
         });

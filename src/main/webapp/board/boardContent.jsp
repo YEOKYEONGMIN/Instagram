@@ -59,7 +59,7 @@ List<AttachVO> attachList;
 			<ul class="navi-list">
 				<li class="navi-item"><a href="/home.jsp"><i
 						class="fas fa-home"></i></a></li>
-				<li class="navi-item"><a href="/message.jsp"><i
+				<li class="navi-item"><a href="/message/message.jsp"><i
 						class="far fa-paper-plane"></i></a></li>
 				<li class="navi-item"><a href="/popular.jsp"><i
 						class="far fa-compass"></i></a></li>
@@ -192,7 +192,7 @@ List<AttachVO> attachList;
                         	%>
 							</div>
 							<div class="comment">
-								<span class="user_id"><%=replyVO.getReplyUsername() %></span><%=replyVO.getReplyComent() %>
+								<span class="user_id"><%=replyVO.getReplyUsername() %></span><%=replyVO.getReplyComment() %>
 								<div class="time">
 									2시간 
 									<%if(replyVO.getReplyLikecount()>0) {%>
@@ -258,7 +258,7 @@ List<AttachVO> attachList;
 					<div class="commit_field">
 						<input type="hidden" name="replyBno" value="<%=num%>">
 						<input type="hidden" name="replyUsername" value="<%=memberVO.getUsername() %>" >      
-						<input type="text" name="replyComent" onkeyup="replyInput(<%=num%>)" id="replyInput<%=num%>" placeholder="댓글달기..">
+						<input type="text" name="replyComment" onkeyup="replyInput(<%=num%>)" id="replyInput<%=num%>" placeholder="댓글달기..">
 						<button type="button" id="replybtn<%=num%>" onclick="reply(<%=num%>)" disabled >게시</button>
 					</div>
 					</form>

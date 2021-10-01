@@ -56,7 +56,7 @@ ReplyVO replyVO = new ReplyVO();
 			<ul class="navi-list">
 				<li class="navi-item"><a href="../home.jsp"><i
 						class="fas fa-home"></i></a></li>
-				<li class="navi-item"><a href="../message.jsp"><i
+				<li class="navi-item"><a href="/message/message.jsp"><i
 						class="far fa-paper-plane"></i></a></li>
 				<li class="navi-item"><a href="../popular.jsp"><i
 						class="far fa-compass"></i></a></li>
@@ -185,7 +185,7 @@ ReplyVO replyVO = new ReplyVO();
                     	  %>
                     	  <div class="img-box">
                     	  <a href="/board/boardContent.jsp?num=<%=num%>"><img src="/board/display.jsp?fileName=<%=fileCallPath %>" alt=""></a>
-                        	<div class="comment">
+                        	<div class="comment" onclick="location.href='/board/boardContent.jsp?num=<%=num%>'">
                             <a href="#a" class=""><i class="fas fa-heart"></i><span><%=boardVO.getLikecount() %></span></a>
                             <a href="#a" class=""><i class="fas fa-comment"></i><span><%=replyDAO.getReplyCount(num) %></span></a>
                         	</div>

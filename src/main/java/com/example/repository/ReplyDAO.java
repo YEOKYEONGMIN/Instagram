@@ -56,14 +56,14 @@ public class ReplyDAO {
 			con = JdbcUtils.getConnection();
 			
 			String sql = "";
-			sql = "INSERT INTO reply (num, reply_bno, reply_username, reply_coment, reply_likecount, reply_regDate) ";
+			sql = "INSERT INTO reply (num, reply_bno, reply_username, reply_comment, reply_likecount, reply_regDate) ";
 			sql += "VALUES (?, ?, ?, ?, ?, ?) ";
 			
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, replyVO.getNum());
 			pstmt.setInt(2,replyVO.getReplyBno());
 			pstmt.setString(3,replyVO.getReplyUsername());
-			pstmt.setString(4,replyVO.getReplyComent());
+			pstmt.setString(4,replyVO.getReplyComment());
 			pstmt.setInt(5,replyVO.getReplyLikecount());
 			pstmt.setTimestamp(6,replyVO.getReplyRegDate());
 			
@@ -101,7 +101,7 @@ public class ReplyDAO {
 				replyVO.setNum(rs.getInt("num"));
 				replyVO.setReplyBno(rs.getInt("reply_bno"));;
 				replyVO.setReplyUsername(rs.getString("reply_username"));
-				replyVO.setReplyComent(rs.getString("reply_coment"));
+				replyVO.setReplyComment(rs.getString("reply_comment"));
 				replyVO.setReplyLikecount(rs.getInt("reply_likecount"));
 				replyVO.setReplyRegDate(rs.getTimestamp("reply_regDate"));
 				list.add(replyVO);

@@ -42,14 +42,19 @@ MemberVO memberVO = memberDAO.getMemberById(id);
 			<ul class="navi-list">
 				<li class="navi-item"><a href="/home.jsp"><i
 						class="fas fa-home"></i></a></li>
-				<li class="navi-item"><a href="/message.jsp"><i
+				<li class="navi-item"><a href="/message/message.jsp"><i
 						class="far fa-paper-plane"></i></a></li>
 				<li class="navi-item"><a href="/popular.jsp"><i
 						class="far fa-compass"></i></a></li>
 				<li class="navi-item"><a href="" id="followBtn"><i
 						class="far fa-heart"></i></a></li>
-				<li class="navi-item"><a href="/member/profile.jsp"><span
-						class="my-account"><img src="/images/profile.jpeg"></span></a></li>
+				<li class="navi-item" id="profile"><a href="#"><span
+						class="my-account"><img src="/images/profileImg.jpg"></span></a>
+					<ul>
+                        <li><a href="/member/profile.jsp"><i class="far fa-user-circle"></i> 프로필</a></li>
+                        <li><a href="/member/logout.jsp">로그아웃</a></li>
+                    </ul>		
+				</li>
 			</ul>
 		</nav>
 		</div>
@@ -193,7 +198,14 @@ MemberVO memberVO = memberDAO.getMemberById(id);
     <script src="/js/jquery.serializeObject.min.js"></script>
     <script src="/js/follow.js"></script>
     <script>
-    
+    $('#profile').on('click',function(){
+    	$ul = $('#profile').children();
+    	if($ul.hasClass('drop')===true){
+    		$ul.removeClass('drop')
+    	}else{
+    		$ul.addClass('drop');
+    	}
+    });
     
     $('#btn').on('click', function () {
 

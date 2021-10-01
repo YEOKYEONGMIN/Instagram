@@ -42,14 +42,19 @@ MemberVO memberVO = memberDAO.getMemberById(id);
 			<ul class="navi-list">
 				<li class="navi-item"><a href="/home.jsp"><i
 						class="fas fa-home"></i></a></li>
-				<li class="navi-item"><a href="/message.jsp"><i
+				<li class="navi-item"><a href="/message/message.jsp"><i
 						class="far fa-paper-plane"></i></a></li>
 				<li class="navi-item"><a href="/popular.jsp"><i
 						class="far fa-compass"></i></a></li>
 				<li class="navi-item"><a href="" id="followBtn"><i
 						class="far fa-heart"></i></a></li>
-				<li class="navi-item"><a href="/member/profile.jsp"><span
-						class="my-account"><img src="/images/profile.jpeg"></span></a></li>
+				<li class="navi-item" id="profile"><a href="#"><span
+						class="my-account"><img src="/images/profileImg.jpg"></span></a>
+					<ul>
+                        <li><a href="/member/profile.jsp"><i class="far fa-user-circle"></i> 프로필</a></li>
+                        <li><a href="/member/logout.jsp">로그아웃</a></li>
+                    </ul>		
+				</li>
 			</ul>
 		</nav>
 		</div>
@@ -181,7 +186,14 @@ MemberVO memberVO = memberDAO.getMemberById(id);
     <script src="/js/jquery.serializeObject.min.js"></script>
     <script src="/js/follow.js"></script>
     <script>
-    
+    $('#profile').on('click',function(){
+    	$ul = $('#profile').children();
+    	if($ul.hasClass('drop')===true){
+    		$ul.removeClass('drop')
+    	}else{
+    		$ul.addClass('drop');
+    	}
+    });
     
     $('#btn').on('click', function () {
 		var id = $('#id').val();
@@ -190,14 +202,14 @@ MemberVO memberVO = memberDAO.getMemberById(id);
 		console.log(pass);
 		console.log(passwd);
 		if(pass==passwd){
-		 if (!confirm("확인(예) 또는 취소(아니오)를 선택해주세요.")) {
+		 if (!confirm("계정을 삭제하시겠습니까?.")) {
 		        return;
 		    } else {
 		    	$.ajax({
 					url: '/api/members/' + id,
 					method: 'DELETE',
 					success: function (data) {
-						console.log(data);
+						console.log(data.member);
 						
 						if(data.isDeleted){
 							location.href = '/index.jsp';

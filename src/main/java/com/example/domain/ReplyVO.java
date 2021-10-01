@@ -8,7 +8,7 @@ public class ReplyVO {
 	private Integer num;
 	private Integer replyBno;
 	private String replyUsername;
-	private String replyComent;
+	private String replyComment;
 	private Integer replyLikecount;
 	private Timestamp replyRegDate;
 	

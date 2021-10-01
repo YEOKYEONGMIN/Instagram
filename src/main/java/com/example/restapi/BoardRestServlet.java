@@ -99,11 +99,9 @@ public class BoardRestServlet extends HttpServlet {
 		String requestURI = request.getRequestURI();
 		String type = requestURI.substring(BASE_URI.length() + 1);
 		
-		if(type.equals("new")) {
-			WriteNewBoard(request, response);
-		}else if(type.equals("reply")) {
-			//WriteReplyBoard(request, response);
-		}
+		
+		WriteNewBoard(request, response);
+		
 		
 	}
 

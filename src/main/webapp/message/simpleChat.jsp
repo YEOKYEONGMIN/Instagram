@@ -97,8 +97,6 @@ div#chatBox{
 		addWinEvt(); // beforeunload, unload 이벤트 연겷하기
 	});
 	
-	
-	
 	function connect(){
 		var url = 'ws://' + location.host + '/simpleChat'
 		console.log('url : ' + url);
@@ -116,8 +114,6 @@ div#chatBox{
 		webSocket.send(nickname + "님이 입장하였습니다.")
 		scrollDown();
 		
-		$('div#first').css('display', 'none');
-		$('div#chat').css('display', 'block')
 	} // onOpen
 	function onClose(event){
 		$('div#chatBox').append('<div class="chat-message">채팅방과 연결이 끊어졌습니다.</div>');
@@ -150,8 +146,6 @@ div#chatBox{
 		webSocket.close();
 		webSocket = null;
 		
-		$(this).prop('disabled', true);
-		$('#btnSend').prop('disabled', true);
 	}
 	
 	

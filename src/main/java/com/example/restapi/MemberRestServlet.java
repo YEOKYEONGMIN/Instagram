@@ -47,6 +47,7 @@ public class MemberRestServlet extends HttpServlet {
 		
 		
 		String text = requestURI.substring(BASE_URI.length());
+		text = text.substring(1); // 맨앞에 "/" 문자제거
 		System.out.println(text);
 		
 		String strJson = "";
@@ -57,7 +58,7 @@ public class MemberRestServlet extends HttpServlet {
 			 strJson = gson.toJson(memberList);
 			
 		}else {// "/api/members/aaa"
-			text = text.substring(1); // 맨앞에 "/" 문자제거
+			
 			
 			MemberVO memberVO = memberDAO.getMemberById(text);
 			int idCount = memberDAO.getCountById(text);

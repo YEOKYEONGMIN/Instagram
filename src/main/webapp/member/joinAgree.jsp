@@ -156,9 +156,9 @@ System.out.println(memberVO); // 서버 콘솔 출력
         	}else {
         		chkAll.checked = false;
         		$('#btn').css('background-color','rgba(var(--d69,0,149,246),.3)');
-        		btn.disabled = true;
         	}
     	});
+        		btn.disabled = true;
     	$(chk3).on('click',function(){
     		if(chk1.checked && chk2.checked && chk3.checked){
         		chkAll.checked = true;
@@ -189,7 +189,7 @@ System.out.println(memberVO); // 서버 콘솔 출력
     			data: strJson,
     			contentType: 'application/json; charset=UTF-8',
     			success: function (data) {
-    				console.log(data);
+    				console.log(data.member);
     				
     				alert(data.result);
     				location.href = '/index.jsp';

@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <header class="header">
 	<div class="container">
-		<a href="" class="logo"><img src="images/logo.png" alt=""></a>
+		<a href="" class="logo"><img src="/images/logo.png" alt=""></a>
 		<div class="input-search">
 			<input type="text" placeholder="검색">
 		</div>
