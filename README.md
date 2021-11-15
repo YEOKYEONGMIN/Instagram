@@ -22,7 +22,7 @@
 )
 ```
 ### board테이블
-
+```
 CREATE TABLE `board` (
   `num` int NOT NULL,
   `username` varchar(45) DEFAULT NULL,
@@ -33,9 +33,9 @@ CREATE TABLE `board` (
   `location` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`num`)
 )
-
+```
 ### attach테이블
-
+```
 CREATE TABLE `attach` (
   `uuid` varchar(36) NOT NULL,
   `uploadpath` varchar(10) DEFAULT NULL,
@@ -43,9 +43,9 @@ CREATE TABLE `attach` (
   `bno` int DEFAULT NULL,
   PRIMARY KEY (`uuid`)
 )
-
+```
 ### reply테이블
-
+```
 CREATE TABLE `reply` (
   `num` int NOT NULL,
   `reply_bno` int DEFAULT NULL,
@@ -55,17 +55,17 @@ CREATE TABLE `reply` (
   `reply_regDate` datetime DEFAULT NULL,
   PRIMARY KEY (`num`)
 )
-
+```
 ### boardlike테이블
-
+```
 CREATE TABLE `boardlike` (
   `username` varchar(20) NOT NULL,
   `bno` int NOT NULL,
   `isLike` bit(1) DEFAULT NULL
 )
-
+```
 ### replylike테이블
-
+```
 CREATE TABLE `replylike` (
   `replylike_username` varchar(20) DEFAULT NULL,
   `replylike_num` int DEFAULT NULL,
@@ -73,3 +73,4 @@ CREATE TABLE `replylike` (
   `replylike_regDate` datetime DEFAULT NULL,
   `bno` int DEFAULT NULL
 )
+```
