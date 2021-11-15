@@ -112,20 +112,9 @@ public class MemberRestServlet extends HttpServlet {
 				String username = chkMemberVO.getUsername();
 				String profileImg = chkMemberVO.getProfileImg();
 
-				System.out.println("id :" + id);
 
 				session.setAttribute("id", id);
-				// 쿠키 생성
-				Cookie cookie = new Cookie("loginId", id);
-				// 쿠키 유효시간(유통기한) 설정
-				// cookie.setMaxAge(60 * 10); // 초단위로 설정. 10분 = 60초 * 10
-				cookie.setMaxAge(60 * 60); // 1주일 설정.
-
-				// 쿠키 경로설정
-				cookie.setPath("/"); // 프로젝트 모든 경로에서 쿠키 받도록 설정
-
-				// 클라이언트로 보낼 쿠키를 response 응답객체에 추가하기. -> 응답시 쿠키도 함께 보냄.
-				response.addCookie(cookie);
+			
 
 			}
 		}

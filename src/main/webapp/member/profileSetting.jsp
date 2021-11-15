@@ -147,7 +147,7 @@ MemberVO memberVO = memberDAO.getMemberById(id);
                 <div class="content-item__09">
                     <div class="item__title">성별</div>
                     <div class="item__input">
-                        <input type="text" name="gender" />
+                        <input type="text" name="gender" value="<%=memberVO.getGender() %>"/>
                     </div>
                 </div>
                 <div class="content-item__10">
@@ -246,6 +246,7 @@ MemberVO memberVO = memberDAO.getMemberById(id);
     		$ul.addClass('drop');
     	}
     });
+    
     function readImage(input) {
         // 인풋 태그에 파일이 있는 경우
         if(input.files && input.files[0]) {

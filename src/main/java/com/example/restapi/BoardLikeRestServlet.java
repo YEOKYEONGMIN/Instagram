@@ -53,7 +53,7 @@ private static final String BASE_URI = "/api/boardLike";
 		if(boardLikeDAO.getboradUsernameCount(bno, username)==0) {
 			boardLikeDAO.boardLike(boardLikeVO);
 		}
-		if(boardLikeDAO.getboradUsernameCount(bno, username)==1) {
+		else if(boardLikeDAO.getboradUsernameCount(bno, username)==1) {
 			if(boardLikeDAO.getLike(bno, username)==0) 
 				boardLikeDAO.boardLike(bno,username);
 			else
