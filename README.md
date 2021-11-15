@@ -6,7 +6,7 @@
 
 ### member테이블
 ```
-- CREATE TABLE `member` (
+CREATE TABLE `member` (
   `id` varchar(20) NOT NULL,
   `passwd` varchar(45) NOT NULL,
   `name` varchar(20) DEFAULT NULL,
