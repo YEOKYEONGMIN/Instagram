@@ -5,6 +5,7 @@
 
 
 member테이블
+
 CREATE TABLE `member` (
   `id` varchar(20) NOT NULL,
   `passwd` varchar(45) NOT NULL,
@@ -21,6 +22,7 @@ CREATE TABLE `member` (
 )
 
 board테이블
+
 CREATE TABLE `board` (
   `num` int NOT NULL,
   `username` varchar(45) DEFAULT NULL,
@@ -33,6 +35,7 @@ CREATE TABLE `board` (
 )
 
 attach테이블
+
 CREATE TABLE `attach` (
   `uuid` varchar(36) NOT NULL,
   `uploadpath` varchar(10) DEFAULT NULL,
@@ -42,6 +45,7 @@ CREATE TABLE `attach` (
 )
 
 reply테이블
+
 CREATE TABLE `reply` (
   `num` int NOT NULL,
   `reply_bno` int DEFAULT NULL,
@@ -53,6 +57,7 @@ CREATE TABLE `reply` (
 )
 
 boardlike테이블
+
 CREATE TABLE `boardlike` (
   `username` varchar(20) NOT NULL,
   `bno` int NOT NULL,
@@ -60,6 +65,7 @@ CREATE TABLE `boardlike` (
 )
 
 replylike테이블
+
 CREATE TABLE `replylike` (
   `replylike_username` varchar(20) DEFAULT NULL,
   `replylike_num` int DEFAULT NULL,
