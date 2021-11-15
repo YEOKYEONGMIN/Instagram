@@ -5,7 +5,7 @@
 
 
 ### member테이블
-
+...
 CREATE TABLE `member` (
   `id` varchar(20) NOT NULL,
   `passwd` varchar(45) NOT NULL,
@@ -20,7 +20,7 @@ CREATE TABLE `member` (
   `birthday` varchar(8) DEFAULT NULL,
   PRIMARY KEY (`id`)
 )
-
+...
 ### board테이블
 
 CREATE TABLE `board` (
@@ -44,7 +44,7 @@ CREATE TABLE `attach` (
   PRIMARY KEY (`uuid`)
 )
 
-reply테이블
+### reply테이블
 
 CREATE TABLE `reply` (
   `num` int NOT NULL,
